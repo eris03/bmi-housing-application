@@ -62,9 +62,27 @@
     return d;
   }
 
-  // The form intentionally starts BLANK on every visit — no draft is saved or
-  // restored. Also clear anything stored by earlier versions of the app.
-  function clearSavedDrafts() {
+  // Draft is kept in sessionStorage: it SURVIVES a page reload, but is cleared
+  // automatically when the tab/browser is closed — so a brand-new visit starts
+  // with a fresh blank form, while an accidental refresh keeps your progress.
+  var SESSION_KEY = 'bmi_application_session';
+  function saveDraft() {
+    try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(collectData())); } catch (e) {}
+  }
+  function restoreDraft() {
+    var raw; try { raw = sessionStorage.getItem(SESSION_KEY); } catch (e) { return; }
+    if (!raw) return;
+    var d; try { d = JSON.parse(raw); } catch (e) { return; }
+    TEXT_FIELDS.forEach(function (k) { if (d[k] != null) setVal(k, d[k]); });
+    setRadio('scst', d.scst); setRadio('resident', d.resident);
+    (d.family || []).forEach(function (m, i) {
+      if (i >= FAMILY_ROWS || !m) return;
+      setVal('fam' + i + 'name', m.name); setVal('fam' + i + 'age', m.age); setVal('fam' + i + 'rel', m.relationship);
+    });
+  }
+  // Remove drafts saved by earlier versions (these used localStorage and would
+  // otherwise persist across separate visits).
+  function clearOldLocalDrafts() {
     try {
       ['bmi_application_draft_v1', 'bmi_application_draft_v2', 'bmi_application_draft_v3']
         .forEach(function (k) { localStorage.removeItem(k); });
@@ -216,10 +234,12 @@
   // ---- init --------------------------------------------------------------
   function init() {
     buildFamily();
-    clearSavedDrafts();
+    clearOldLocalDrafts();
+    restoreDraft();
     setupSignature();
     setupPermSame();
     document.getElementById('dob').addEventListener('change', calcAge);
+    document.getElementById('appForm').addEventListener('input', saveDraft);
 
     document.querySelectorAll('.opt').forEach(function (card) {
       card.addEventListener('click', function () { chooseApp(card.getAttribute('data-go')); });
@@ -230,6 +250,7 @@
     document.getElementById('downloadBtn').addEventListener('click', downloadPdf);
     document.getElementById('clearBtn').addEventListener('click', function () {
       if (!confirm('Clear all entered details? This cannot be undone.')) return;
+      try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
       document.getElementById('appForm').reset();
       if (sigClearFn) sigClearFn();
       var pa = document.getElementById('permAddr'); if (pa) pa.readOnly = false;
