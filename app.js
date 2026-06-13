@@ -2,8 +2,6 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'bmi_application_draft_v3';
-
   var APPS = {
     membership: { title: 'Application for Membership' },
     purchase:   { title: 'Application for Purchase of Site' }
@@ -64,27 +62,13 @@
     return d;
   }
 
-  // ---- draft persistence -------------------------------------------------
-  var savedTimer;
-  function flashSaved() {
-    var m = document.getElementById('savedMsg');
-    m.style.display = 'inline-block';
-    clearTimeout(savedTimer);
-    savedTimer = setTimeout(function () { m.style.display = 'none'; }, 1400);
-  }
-  function saveDraft() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData())); flashSaved(); } catch (e) {}
-  }
-  function restoreDraft() {
-    var raw; try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
-    if (!raw) return;
-    var d; try { d = JSON.parse(raw); } catch (e) { return; }
-    TEXT_FIELDS.forEach(function (k) { if (d[k] != null) setVal(k, d[k]); });
-    setRadio('scst', d.scst); setRadio('resident', d.resident);
-    (d.family || []).forEach(function (m, i) {
-      if (i >= FAMILY_ROWS || !m) return;
-      setVal('fam' + i + 'name', m.name); setVal('fam' + i + 'age', m.age); setVal('fam' + i + 'rel', m.relationship);
-    });
+  // The form intentionally starts BLANK on every visit — no draft is saved or
+  // restored. Also clear anything stored by earlier versions of the app.
+  function clearSavedDrafts() {
+    try {
+      ['bmi_application_draft_v1', 'bmi_application_draft_v2', 'bmi_application_draft_v3']
+        .forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) {}
   }
 
   // ---- age auto-fill from DOB (still editable) ---------------------------
@@ -232,7 +216,7 @@
   // ---- init --------------------------------------------------------------
   function init() {
     buildFamily();
-    restoreDraft();
+    clearSavedDrafts();
     setupSignature();
     setupPermSame();
     document.getElementById('dob').addEventListener('change', calcAge);
@@ -244,10 +228,8 @@
     document.getElementById('editBtn').addEventListener('click', backToForm);
     document.getElementById('previewBtn').addEventListener('click', previewApp);
     document.getElementById('downloadBtn').addEventListener('click', downloadPdf);
-    document.getElementById('appForm').addEventListener('input', saveDraft);
     document.getElementById('clearBtn').addEventListener('click', function () {
       if (!confirm('Clear all entered details? This cannot be undone.')) return;
-      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
       document.getElementById('appForm').reset();
       if (sigClearFn) sigClearFn();
       var pa = document.getElementById('permAddr'); if (pa) pa.readOnly = false;
