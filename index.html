@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BMI Housing Society – Application Forms</title>
+<style>
+  :root{
+    --bmi:#0d4f9e; --bmi-dark:#093566; --accent:#1769d6;
+    --bg:#eef2f7; --card:#ffffff; --line:#d8e0ea; --ink:#1d2733; --muted:#6a7686;
+    --ok:#157a3d; --okbg:#e7f5ec;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);}
+  header{background:linear-gradient(135deg,var(--bmi),var(--bmi-dark));color:#fff;padding:18px 22px;}
+  header h1{margin:0;font-size:20px;letter-spacing:.3px;}
+  header p{margin:4px 0 0;font-size:12.5px;opacity:.9;}
+  .wrap{max-width:980px;margin:22px auto;padding:0 16px 90px;}
+
+  /* Landing / chooser */
+  .choose{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:8px;}
+  .opt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 22px;cursor:pointer;
+       box-shadow:0 1px 3px rgba(16,40,80,.05);transition:.15s;text-align:left;}
+  .opt:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(13,79,158,.14);transform:translateY(-2px);}
+  .opt .tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--bmi);border-radius:20px;padding:3px 10px;margin-bottom:12px;}
+  .opt h2{margin:0 0 6px;font-size:17px;color:var(--bmi-dark);}
+  .opt p{margin:0;font-size:13px;color:var(--muted);line-height:1.45;}
+  .opt .go{margin-top:16px;font-weight:600;color:var(--accent);font-size:13.5px;}
+  @media(max-width:680px){.choose{grid-template-columns:1fr}}
+
+  /* Active-form header bar */
+  .formhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+  .formhead h2{margin:0;font-size:18px;color:var(--bmi);}
+  .back{background:none;border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--bmi);cursor:pointer;font-weight:600;}
+  .back:hover{background:#f3f7fc;}
+
+  .note{background:#fff8e6;border:1px solid #f0d98a;border-radius:8px;padding:12px 14px;font-size:13px;color:#6b551b;margin-bottom:20px;}
+  fieldset{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:0 0 20px;padding:18px 20px;box-shadow:0 1px 2px rgba(16,40,80,.04);}
+  legend{font-weight:700;color:var(--bmi);padding:0 8px;font-size:15px;}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 18px;}
+  .full{grid-column:1/-1;}
+  label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:5px;}
+  input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],textarea,select{
+    width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink);
+  }
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(23,105,214,.13);}
+  textarea{resize:vertical;min-height:62px;}
+  .radio-row{display:flex;gap:18px;align-items:center;padding-top:4px;}
+  .radio-row label{display:flex;align-items:center;gap:6px;font-weight:500;color:var(--ink);margin:0;cursor:pointer;}
+  .radio-row input{width:auto;margin:0;}
+  table.fam{width:100%;border-collapse:collapse;}
+  table.fam th{font-size:12px;color:var(--muted);text-align:left;padding:4px 6px;font-weight:600;}
+  table.fam td{padding:3px 4px;}
+  table.fam td.sl{width:34px;text-align:center;color:var(--muted);font-weight:600;}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:400;}
+  .sigwrap{position:relative;margin-top:6px;display:inline-block;}
+  #sigPad{border:1px dashed var(--accent);border-radius:8px;background:#fcfdff;width:100%;max-width:480px;height:150px;touch-action:none;cursor:crosshair;display:block;}
+  .sigclear{position:absolute;top:8px;right:8px;font-size:12px;font-weight:600;color:var(--bmi);background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;}
+  .sigclear:hover{background:#f3f7fc;}
+  .bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;box-shadow:0 -2px 10px rgba(16,40,80,.06);}
+  button.action{font-family:inherit;font-size:14px;font-weight:600;border-radius:9px;padding:11px 22px;border:1px solid transparent;cursor:pointer;}
+  .btn-primary{background:var(--bmi);color:#fff;}
+  .btn-primary:hover{background:var(--bmi-dark);}
+  .btn-ghost{background:#fff;color:var(--bmi);border-color:var(--line);}
+  .btn-ghost:hover{background:#f3f7fc;}
+  .saved{font-size:12.5px;color:var(--ok);background:var(--okbg);padding:6px 12px;border-radius:20px;display:none;}
+  .req::after{content:" *";color:#c0392b;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Bengaluru Metro City Infrastructure Housing Co-operative Society Ltd.</h1>
+  <p>Online Application &middot; Reg No. JRB/RGN/CR-13/51578/2022-23 &middot; Fill the form &amp; download the official PDF</p>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ LANDING / CHOOSER ============ -->
+  <section id="landing">
+    <div class="note">Choose which application you want to fill. Your details are placed onto the official form and downloaded in the exact same format. Everything runs on your computer &mdash; nothing is uploaded.</div>
+    <div class="choose">
+      <div class="opt" data-go="purchase">
+        <span class="tag">Form A</span>
+        <h2>Application for Purchase of Site</h2>
+        <p>Apply to purchase a site &mdash; applicant &amp; nominee details, family members, site &amp; payment particulars.</p>
+        <div class="go">Fill this application &rarr;</div>
+      </div>
+      <div class="opt" data-go="membership">
+        <span class="tag">Form B</span>
+        <h2>Application for Membership</h2>
+        <p>Apply for society membership &mdash; applicant &amp; nominee details, addresses, photographs &amp; membership fees.</p>
+        <div class="go">Fill this application &rarr;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE FORM ============ -->
+  <form id="appForm" class="hidden" autocomplete="on">
+    <div class="formhead">
+      <h2 id="formTitle"></h2>
+      <button type="button" class="back" id="backBtn">&larr; Change application</button>
+    </div>
+
+    <fieldset data-apps="purchase">
+      <legend>Site Details</legend>
+      <div class="grid">
+        <div><label>Site measuring (size)</label><input type="text" id="siteMeasuring" placeholder="e.g. 30 x 40 ft"></div>
+        <div><label>Layout name</label><input type="text" id="layoutName" placeholder="e.g. BMI Green Valley"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Applicant Details</legend>
+      <div class="grid">
+        <div class="full"><label class="req">Name of applicant (in BLOCK letters)</label><input type="text" id="name" placeholder="RAVI KUMAR SHARMA" style="text-transform:uppercase"></div>
+        <div><label>Father's / Husband's name</label><input type="text" id="father" style="text-transform:uppercase"></div>
+        <div data-apps="membership"><label>Place of birth</label><input type="text" id="placeOfBirth" placeholder="e.g. Bengaluru"></div>
+        <div><label>Age</label><input type="number" id="age" min="18" max="120"></div>
+        <div><label>Date of birth</label><input type="date" id="dob"></div>
+        <div data-apps="purchase">
+          <label>Belongs to SC / ST ?</label>
+          <div class="radio-row">
+            <label><input type="radio" name="scst" value="Y"> Yes</label>
+            <label><input type="radio" name="scst" value="N"> No</label>
+          </div>
+          <div class="hint">If Yes, attach certificate from competent authority.</div>
+        </div>
+        <div data-apps="purchase">
+          <label>Resident status</label>
+          <div class="radio-row">
+            <label><input type="radio" name="resident" value="Y"> Ordinary resident</label>
+            <label><input type="radio" name="resident" value="N"> Native of Karnataka</label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact &amp; Address</legend>
+      <div class="grid">
+        <div class="full"><label>Address for correspondence</label><textarea id="addressCorr" placeholder="House no, street, area, city, state - pincode"></textarea></div>
+        <div><label>Phone (Residence)</label><input type="tel" id="phoneR"></div>
+        <div><label>Phone (Office)</label><input type="tel" id="phoneO"></div>
+        <div><label>Mobile</label><input type="tel" id="mobile"></div>
+        <div><label>E-mail</label><input type="email" id="email"></div>
+      </div>
+    </fieldset>
+
+    <fieldset data-apps="membership">
+      <legend>Permanent Address &amp; Office</legend>
+      <div class="grid">
+        <div class="full"><label>Permanent address <span class="hint">(leave blank to reuse correspondence address)</span></label><textarea id="permAddr"></textarea></div>
+        <div class="full"><label>Designation &amp; full office address</label><textarea id="designation" placeholder="Designation, company, office address"></textarea></div>
+      </div>
+    </fieldset>
+
+    <fieldset data-apps="purchase">
+      <legend>Employment Particulars</legend>
+      <div class="grid">
+        <div class="full"><label>Place of employment &amp; address</label><textarea id="employment" placeholder="Designation, company, office address"></textarea></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Nominee Details</legend>
+      <div class="grid">
+        <div><label>Nominee name</label><input type="text" id="nomName" style="text-transform:uppercase"></div>
+        <div><label>Relationship</label><input type="text" id="nomRel" placeholder="e.g. Wife / Son"></div>
+        <div><label>Nominee age</label><input type="number" id="nomAge" min="0" max="120"></div>
+        <div data-apps="membership"><label>Nominee date of birth</label><input type="date" id="nomDob"></div>
+        <div class="full"><label>Nominee address</label><textarea id="nomAddr" placeholder="Type 'Same as above' if same"></textarea></div>
+      </div>
+    </fieldset>
+
+    <fieldset data-apps="purchase">
+      <legend>Family Members staying with you</legend>
+      <table class="fam">
+        <thead><tr><th>#</th><th>Name</th><th style="width:90px">Age</th><th style="width:32%">Relationship</th></tr></thead>
+        <tbody id="famBody"></tbody>
+      </table>
+    </fieldset>
+
+    <fieldset data-apps="purchase">
+      <legend>Payment Details</legend>
+      <div class="grid">
+        <div class="full"><label>Cheque / DD No. / Online transaction details</label><input type="text" id="purBankInstr" placeholder="e.g. DD No 558211 dated 10-06-2026"></div>
+        <div><label>Bank</label><input type="text" id="purBank"></div>
+        <div><label>Amount</label><input type="text" id="purAmount" placeholder="e.g. Rs. 2,500/-"></div>
+      </div>
+    </fieldset>
+
+    <fieldset data-apps="membership">
+      <legend>Payment &amp; Remarks</legend>
+      <div class="grid">
+        <div><label>Cash</label><input type="text" id="memCash"></div>
+        <div><label>Cheque / DD No.</label><input type="text" id="memCheque"></div>
+        <div><label>Online payment (UPI / NEFT / RTGS / Others)</label><input type="text" id="memOnline"></div>
+        <div><label>Bank &amp; Branch</label><input type="text" id="memBankBranch"></div>
+        <div><label>No. of shares required (min. 10)</label><input type="number" id="shares" value="10" min="10"><div class="hint">Form prints TEN by default; only change if needed.</div></div>
+        <div><label>Remarks, if any</label><input type="text" id="remarks"></div>
+      </div>
+      <div class="hint" style="margin-top:10px">Fees are fixed &amp; pre-printed on the form: Membership ₹300 + Share Fee ₹100 + Share Amount ₹2000 + Admission ₹100 = <b>₹2500</b>.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Place &amp; Date (Declaration)</legend>
+      <div class="grid">
+        <div><label>Place</label><input type="text" id="place" placeholder="e.g. Bengaluru"></div>
+        <div><label>Date</label><input type="date" id="date"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Signature of the Applicant</legend>
+      <label>Sign in the box below using your mouse, trackpad or finger.</label>
+      <div class="sigwrap">
+        <canvas id="sigPad" width="640" height="180"></canvas>
+        <button type="button" class="sigclear" id="sigClear">Clear</button>
+      </div>
+      <div class="hint">This signature is placed on the "Signature of the Applicant" line of the PDF. Leave blank to sign by hand after printing. The photograph box is intentionally left empty for a physical photo to be pasted after printing.</div>
+    </fieldset>
+  </form>
+
+</div>
+
+<div class="bar hidden" id="actionBar">
+  <span class="saved" id="savedMsg">✓ Saved</span>
+  <button type="button" class="action btn-ghost" id="clearBtn">Clear form</button>
+  <button type="button" class="action btn-primary" id="genBtn">⬇ Generate &amp; Download PDF</button>
+</div>
+
+<!-- PDF library: load from CDN (works on any web host), fall back to the
+     bundled offline copy if there's no internet (e.g. opened from disk). -->
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script>if(!window.PDFLib){document.write('<script src="lib/pdf-lib.min.js"><\/script>');}</script>
+<script src="template.js"></script>
+<script src="overlay.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
