@@ -14,7 +14,6 @@
     'addressCorr', 'phoneR', 'phoneO', 'mobile', 'email', 'permAddr', 'designation', 'employment',
     'nomName', 'nomRel', 'nomAge', 'nomDob', 'nomAddr',
     'purBankInstr', 'purBank', 'purAmount',
-    'memCash', 'memCheque', 'memOnline', 'memBankBranch', 'shares', 'remarks',
     'place', 'date'
   ];
 
@@ -132,8 +131,11 @@
   function showAppFields(app) {
     var els = document.querySelectorAll('[data-apps]');
     els.forEach(function (el) {
-      var list = el.getAttribute('data-apps').split(/\s+/);
-      el.classList.toggle('hidden', list.indexOf(app) === -1);
+      var show = el.getAttribute('data-apps').split(/\s+/).indexOf(app) !== -1;
+      el.classList.toggle('hidden', !show);
+      // Disable controls inside hidden sections so their "required" flag does
+      // not block the other application's validation.
+      el.querySelectorAll('input,select,textarea').forEach(function (c) { c.disabled = !show; });
     });
   }
 
@@ -167,12 +169,11 @@
   async function generate() {
     if (!currentApp) return;
     var btn = document.getElementById('genBtn');
+    var form = document.getElementById('appForm');
+    // Block download until every required (visible) field is filled; the
+    // browser points the user to the first one that's missing.
+    if (!form.checkValidity()) { form.reportValidity(); return; }
     var data = collectData();
-    if (!data.name.trim()) {
-      alert('Please enter at least the applicant name before generating the PDF.');
-      document.getElementById('name').focus();
-      return;
-    }
     btn.disabled = true;
     var orig = btn.innerHTML;
     btn.textContent = 'Generating…';
@@ -211,7 +212,6 @@
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
       document.getElementById('appForm').reset();
       if (sigClear) sigClear();
-      document.getElementById('shares').value = '10';
     });
 
     if (!window.PDFLib || !window.BMIOverlay || !window.TEMPLATE_PDF_BASE64) {

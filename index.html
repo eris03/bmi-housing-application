@@ -101,27 +101,28 @@
       <h2 id="formTitle"></h2>
       <button type="button" class="back" id="backBtn">&larr; Change application</button>
     </div>
+    <div class="note" style="background:#eef4fc;border-color:#cfe0f5;color:#284b73;">All fields are required unless marked <b>(optional)</b>. The <b>Download</b> button will not produce the PDF until every required field is filled.</div>
 
     <fieldset data-apps="purchase">
       <legend>Site Details</legend>
       <div class="grid">
-        <div><label>Site measuring (size)</label><input type="text" id="siteMeasuring" placeholder="e.g. 30 x 40 ft"></div>
-        <div><label>Layout name</label><input type="text" id="layoutName" placeholder="e.g. BMI Green Valley"></div>
+        <div><label>Site measuring (size)</label><input type="text" id="siteMeasuring" placeholder="e.g. 30 x 40 ft" required></div>
+        <div><label>Layout name</label><input type="text" id="layoutName" placeholder="e.g. BMI Green Valley" required></div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Applicant Details</legend>
       <div class="grid">
-        <div class="full"><label class="req">Name of applicant (in BLOCK letters)</label><input type="text" id="name" placeholder="RAVI KUMAR SHARMA" style="text-transform:uppercase"></div>
-        <div><label>Father's / Husband's name</label><input type="text" id="father" style="text-transform:uppercase"></div>
-        <div data-apps="membership"><label>Place of birth</label><input type="text" id="placeOfBirth" placeholder="e.g. Bengaluru"></div>
-        <div><label>Age</label><input type="number" id="age" min="18" max="120"></div>
-        <div><label>Date of birth</label><input type="date" id="dob"></div>
+        <div class="full"><label class="req">Name of applicant (in BLOCK letters)</label><input type="text" id="name" placeholder="RAVI KUMAR SHARMA" style="text-transform:uppercase" required></div>
+        <div><label>Father's / Husband's name</label><input type="text" id="father" style="text-transform:uppercase" required></div>
+        <div data-apps="membership"><label>Place of birth</label><input type="text" id="placeOfBirth" placeholder="e.g. Bengaluru" required></div>
+        <div><label>Age</label><input type="number" id="age" min="18" max="120" required></div>
+        <div><label>Date of birth</label><input type="date" id="dob" required></div>
         <div data-apps="purchase">
           <label>Belongs to SC / ST ?</label>
           <div class="radio-row">
-            <label><input type="radio" name="scst" value="Y"> Yes</label>
+            <label><input type="radio" name="scst" value="Y" required> Yes</label>
             <label><input type="radio" name="scst" value="N"> No</label>
           </div>
           <div class="hint">If Yes, attach certificate from competent authority.</div>
@@ -129,7 +130,7 @@
         <div data-apps="purchase">
           <label>Resident status</label>
           <div class="radio-row">
-            <label><input type="radio" name="resident" value="Y"> Ordinary resident</label>
+            <label><input type="radio" name="resident" value="Y" required> Ordinary resident</label>
             <label><input type="radio" name="resident" value="N"> Native of Karnataka</label>
           </div>
         </div>
@@ -139,42 +140,42 @@
     <fieldset>
       <legend>Contact &amp; Address</legend>
       <div class="grid">
-        <div class="full"><label>Address for correspondence</label><textarea id="addressCorr" placeholder="House no, street, area, city, state - pincode"></textarea></div>
-        <div><label>Phone (Residence)</label><input type="tel" id="phoneR"></div>
-        <div><label>Phone (Office)</label><input type="tel" id="phoneO"></div>
-        <div><label>Mobile</label><input type="tel" id="mobile"></div>
-        <div><label>E-mail</label><input type="email" id="email"></div>
+        <div class="full"><label>Address for correspondence</label><textarea id="addressCorr" placeholder="House no, street, area, city, state - pincode" required></textarea></div>
+        <div><label>Phone (Residence) <span class="hint">(optional)</span></label><input type="tel" id="phoneR"></div>
+        <div><label>Phone (Office) <span class="hint">(optional)</span></label><input type="tel" id="phoneO"></div>
+        <div><label>Mobile</label><input type="tel" id="mobile" required></div>
+        <div><label>E-mail</label><input type="email" id="email" required></div>
       </div>
     </fieldset>
 
     <fieldset data-apps="membership">
       <legend>Permanent Address &amp; Office</legend>
       <div class="grid">
-        <div class="full"><label>Permanent address <span class="hint">(leave blank to reuse correspondence address)</span></label><textarea id="permAddr"></textarea></div>
-        <div class="full"><label>Designation &amp; full office address</label><textarea id="designation" placeholder="Designation, company, office address"></textarea></div>
+        <div class="full"><label>Permanent address <span class="hint">(optional — leave blank to reuse correspondence address)</span></label><textarea id="permAddr"></textarea></div>
+        <div class="full"><label>Designation &amp; full office address</label><textarea id="designation" placeholder="Designation, company, office address" required></textarea></div>
       </div>
     </fieldset>
 
     <fieldset data-apps="purchase">
       <legend>Employment Particulars</legend>
       <div class="grid">
-        <div class="full"><label>Place of employment &amp; address</label><textarea id="employment" placeholder="Designation, company, office address"></textarea></div>
+        <div class="full"><label>Place of employment &amp; address</label><textarea id="employment" placeholder="Designation, company, office address" required></textarea></div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Nominee Details</legend>
       <div class="grid">
-        <div><label>Nominee name</label><input type="text" id="nomName" style="text-transform:uppercase"></div>
-        <div><label>Relationship</label><input type="text" id="nomRel" placeholder="e.g. Wife / Son"></div>
-        <div><label>Nominee age</label><input type="number" id="nomAge" min="0" max="120"></div>
-        <div data-apps="membership"><label>Nominee date of birth</label><input type="date" id="nomDob"></div>
-        <div class="full"><label>Nominee address</label><textarea id="nomAddr" placeholder="Type 'Same as above' if same"></textarea></div>
+        <div><label>Nominee name</label><input type="text" id="nomName" style="text-transform:uppercase" required></div>
+        <div><label>Relationship</label><input type="text" id="nomRel" placeholder="e.g. Wife / Son" required></div>
+        <div><label>Nominee age <span class="hint">(optional)</span></label><input type="number" id="nomAge" min="0" max="120"></div>
+        <div data-apps="membership"><label>Nominee date of birth <span class="hint">(optional)</span></label><input type="date" id="nomDob"></div>
+        <div class="full"><label>Nominee address <span class="hint">(optional)</span></label><textarea id="nomAddr" placeholder="Type 'Same as above' if same"></textarea></div>
       </div>
     </fieldset>
 
     <fieldset data-apps="purchase">
-      <legend>Family Members staying with you</legend>
+      <legend>Family Members staying with you <span class="hint" style="font-weight:400">(optional)</span></legend>
       <table class="fam">
         <thead><tr><th>#</th><th>Name</th><th style="width:90px">Age</th><th style="width:32%">Relationship</th></tr></thead>
         <tbody id="famBody"></tbody>
@@ -184,30 +185,17 @@
     <fieldset data-apps="purchase">
       <legend>Payment Details</legend>
       <div class="grid">
-        <div class="full"><label>Cheque / DD No. / Online transaction details</label><input type="text" id="purBankInstr" placeholder="e.g. DD No 558211 dated 10-06-2026"></div>
-        <div><label>Bank</label><input type="text" id="purBank"></div>
-        <div><label>Amount</label><input type="text" id="purAmount" placeholder="e.g. Rs. 2,500/-"></div>
+        <div class="full"><label>Cheque / DD No. / Online transaction details</label><input type="text" id="purBankInstr" placeholder="e.g. DD No 558211 dated 10-06-2026" required></div>
+        <div><label>Bank</label><input type="text" id="purBank" required></div>
+        <div><label>Amount</label><input type="text" id="purAmount" placeholder="e.g. Rs. 2,500/-" required></div>
       </div>
-    </fieldset>
-
-    <fieldset data-apps="membership">
-      <legend>Payment &amp; Remarks</legend>
-      <div class="grid">
-        <div><label>Cash</label><input type="text" id="memCash"></div>
-        <div><label>Cheque / DD No.</label><input type="text" id="memCheque"></div>
-        <div><label>Online payment (UPI / NEFT / RTGS / Others)</label><input type="text" id="memOnline"></div>
-        <div><label>Bank &amp; Branch</label><input type="text" id="memBankBranch"></div>
-        <div><label>No. of shares required (min. 10)</label><input type="number" id="shares" value="10" min="10"><div class="hint">Form prints TEN by default; only change if needed.</div></div>
-        <div><label>Remarks, if any</label><input type="text" id="remarks"></div>
-      </div>
-      <div class="hint" style="margin-top:10px">Fees are fixed &amp; pre-printed on the form: Membership ₹300 + Share Fee ₹100 + Share Amount ₹2000 + Admission ₹100 = <b>₹2500</b>.</div>
     </fieldset>
 
     <fieldset>
       <legend>Place &amp; Date (Declaration)</legend>
       <div class="grid">
-        <div><label>Place</label><input type="text" id="place" placeholder="e.g. Bengaluru"></div>
-        <div><label>Date</label><input type="date" id="date"></div>
+        <div><label>Place</label><input type="text" id="place" placeholder="e.g. Bengaluru" required></div>
+        <div><label>Date</label><input type="date" id="date" required></div>
       </div>
     </fieldset>
 

@@ -219,18 +219,8 @@
     draw(p3, font, g('nomRel'), 365, 320, 9, ink);
     drawWrapped(p3, font, g('nomAddr'), 380, [298, 276], 8.5, ink, 150, 22);
 
-    // 10. Shares: the form pre-prints "TEN"; only overlay if the applicant
-    // explicitly requested a different count (placed clear of label & "TEN").
-    var sh = g('shares').trim();
-    if (sh && !/^(10|ten)$/i.test(sh)) draw(p3, font, sh, 255, 246, 9, ink);
-    // 11. Remarks
-    drawWrapped(p3, font, g('remarks'), 160, [229.5], 9, ink, 370, 11);
-
-    // 12. Membership payment
-    draw(p3, font, g('memCash'), 180, 179.5, 9, ink);
-    draw(p3, font, g('memCheque'), 180, 157.5, 9, ink);
-    draw(p3, font, g('memOnline'), 180, 123.5, 9, ink);
-    draw(p3, font, g('memBankBranch'), 170, 100.5, 9, ink);
+    // Shares (pre-printed TEN), Remarks and the Payment section are left blank
+    // on the form for the society's office to complete.
 
     // Photo boxes are intentionally left blank — a physical photograph is
     // pasted onto the printed form by the society.
