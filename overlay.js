@@ -67,22 +67,24 @@
 
   // Comb-grid cell centre x-positions (PDF pts), measured from the form's
   // printed boxes. One character is drawn centred in each successive cell.
+  // All cell centres below are measured directly from the printed PDF boxes
+  // (pixel-accurate), so one block letter lands centred in each white cell.
   var CELLS = {
-    // Page 1 main 24-box grid (Name / Father / Age-DOB rows)
-    main: [197.0, 213.5, 228.4, 243.2, 258.0, 272.8, 287.5, 302.3, 317.0, 331.8,
-           346.5, 361.4, 376.2, 391.0, 405.8, 420.6, 435.4, 450.2, 464.9, 479.7,
-           494.5, 509.3, 524.0, 538.7],
-    // Phone (Office) boxes
-    phoneO: [384.5, 404.9, 419.6, 434.4, 449.3, 464.0, 478.8, 493.6, 508.4, 523.3, 538.1],
-    // Phone (Residence) / Mobile / E-mail row boxes (same layout)
-    contact: [191.3, 213.0, 227.8, 242.6, 257.4, 272.1, 286.9, 301.7, 316.5, 331.3, 346.0],
+    // Page 1 main 24-box grid (Name / Father / Age-DOB / Address / Employment)
+    main: [198.9, 213.6, 228.4, 243.1, 257.9, 272.6, 287.4, 302.1, 317.0, 331.9,
+           346.6, 361.4, 376.1, 390.9, 405.6, 420.4, 435.4, 450.1, 464.9, 479.6,
+           494.4, 509.3, 524.1, 538.9],
+    // Phone (Office) boxes — right half of the contact row
+    phoneO: [390.1, 404.9, 419.6, 434.4, 449.1, 464.0, 478.9, 493.6, 508.4, 523.1, 537.9],
+    // Phone (Residence) / Mobile / E-mail row boxes — left half (same layout)
+    contact: [198.1, 212.9, 227.6, 242.5, 257.4, 272.1, 286.9, 301.6, 316.4, 331.1, 345.9],
     // Nominee name / address boxes
-    nomName: [223.7, 242.2, 257.0, 271.8, 286.5, 301.3, 316.0, 330.8, 345.5, 360.4,
-              375.2, 390.0, 404.8, 419.6, 434.4, 449.2, 463.9, 478.7, 493.5, 508.3, 523.0, 538.0],
-    nomAge: [223.9, 242.4, 257.1, 272.8],
-    nomRel: [359.0, 374.9, 389.8, 404.5, 419.3, 434.1, 448.9, 463.7, 478.6, 493.4, 508.1, 522.9, 537.8],
-    nomAddr: [223.8, 242.3, 257.1, 271.9, 286.6, 301.4, 316.1, 330.9, 345.7, 360.6, 375.4,
-              390.1, 404.9, 419.6, 434.4, 449.3, 464.0, 478.8, 493.6, 508.4, 523.1, 538.0]
+    nomName: [227.4, 242.1, 256.9, 271.6, 286.4, 301.4, 316.1, 330.9, 345.6, 360.4,
+              375.1, 389.9, 404.6, 419.4, 434.4, 449.1, 463.9, 478.6, 493.6, 508.4, 523.1, 537.9],
+    nomAge: [227.6, 242.4, 257.1, 271.9],
+    nomRel: [360.1, 374.9, 389.6, 404.5, 419.4, 434.1, 448.9, 463.6, 478.4, 493.4, 508.1, 522.9, 537.6],
+    nomAddr: [227.4, 242.1, 257.1, 271.9, 286.6, 301.4, 316.1, 330.9, 345.6, 360.4, 375.4,
+              390.1, 404.9, 419.6, 434.4, 449.3, 464.0, 478.9, 493.6, 508.4, 523.1, 537.9]
   };
 
   function drawCellChar(page, font, ch, cx, y, size, color) {
@@ -180,33 +182,33 @@
     if (serial) draw(p1, fontB, serial, 480, 708, 13, red); // Sl. No. (red)
     draw(p1, fontB, g('siteMeasuring'), 290, 587, 10, ink);
     draw(p1, fontB, g('layoutName'), 92, 575, 10, ink);
-    drawComb(p1, fontB, g('name'), CELLS.main, 541, 11, ink);
-    drawComb(p1, fontB, g('father'), CELLS.main, 510, 10, ink);
-    drawComb(p1, fontB, ageDobCells, CELLS.main, 487, 10, ink);
+    drawComb(p1, fontB, g('name'), CELLS.main, 534.7, 11, ink);
+    drawComb(p1, fontB, g('father'), CELLS.main, 498.8, 10, ink);
+    drawComb(p1, fontB, ageDobCells, CELLS.main, 473.8, 10, ink);
 
-    // 4. SC/ST  -> circle Y or N  (Y@196.1, N@209.2  baseline 444.5)
-    if (g('scst') === 'Y') circle(p1, 198.5, 447, 7, 7, ink);
-    else if (g('scst') === 'N') circle(p1, 212, 447, 7, 7, ink);
+    // 4. SC/ST  -> circle Y or N  (printed Y@199, N@213, glyph centre y~440)
+    if (g('scst') === 'Y') circle(p1, 199, 440, 7, 7, ink);
+    else if (g('scst') === 'N') circle(p1, 213, 440, 7, 7, ink);
 
     // 5. Address for correspondence (one block letter per box, 3 rows) + contacts
-    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, [413, 396.5, 380], 9.5, ink);
-    drawComb(p1, fontB, g('phoneR'), CELLS.contact, 364.5, 9.5, ink);
-    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, 364.5, 9.5, ink);
-    drawComb(p1, fontB, g('mobile'), CELLS.contact, 345, 9.5, ink);
-    drawComb(p1, fontB, g('email'), CELLS.contact, 325.5, 9.5, ink);
+    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, [403.8, 388.5, 373.5], 9.5, ink);
+    drawComb(p1, fontB, g('phoneR'), CELLS.contact, 353.5, 9.5, ink);
+    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, 353.5, 9.5, ink);
+    drawComb(p1, fontB, g('mobile'), CELLS.contact, 332.5, 9.5, ink);
+    drawComb(p1, fontB, g('email'), CELLS.contact, 312.8, 9.5, ink);
 
     // 6. Employment particulars (one block letter per box, 2 rows)
-    drawCombFlow(p1, fontB, g('employment'), CELLS.main, [298.5, 279.5], 9.5, ink);
+    drawCombFlow(p1, fontB, g('employment'), CELLS.main, [289.3, 274.3], 9.5, ink);
 
-    // 7. Ordinary resident / Native of Karnataka -> circle Y or N
-    if (g('resident') === 'Y') circle(p1, 199, 243, 7, 7, ink);
-    else if (g('resident') === 'N') circle(p1, 212.5, 243, 7, 7, ink);
+    // 7. Ordinary resident / Native of Karnataka -> circle Y or N (glyph y~238)
+    if (g('resident') === 'Y') circle(p1, 199.5, 238, 7, 7, ink);
+    else if (g('resident') === 'N') circle(p1, 213.5, 238, 7, 7, ink);
 
     // 8. Nominee particulars (one char per box)
-    drawComb(p1, fontB, g('nomName'), CELLS.nomName, 224, 9.5, ink);
-    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, 208.5, 9.5, ink);
-    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, 207, 9.5, ink);
-    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, 190, 9.5, ink);
+    drawComb(p1, fontB, g('nomName'), CELLS.nomName, 208.8, 9.5, ink);
+    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, 191.2, 9.5, ink);
+    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, 191.2, 9.5, ink);
+    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, 173.7, 9.5, ink);
 
     // 9. Family members (up to 5 rows): name @225, age @383, rel @443
     var famY = [108, 88, 68.5, 49, 29.5];
