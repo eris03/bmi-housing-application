@@ -17,7 +17,6 @@
   header p{margin:4px 0 0;font-size:12.5px;opacity:.9;}
   .wrap{max-width:980px;margin:22px auto;padding:0 16px 90px;}
 
-  /* Landing / chooser */
   .choose{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:8px;}
   .opt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 22px;cursor:pointer;
        box-shadow:0 1px 3px rgba(16,40,80,.05);transition:.15s;text-align:left;}
@@ -28,13 +27,12 @@
   .opt .go{margin-top:16px;font-weight:600;color:var(--accent);font-size:13.5px;}
   @media(max-width:680px){.choose{grid-template-columns:1fr}}
 
-  /* Active-form header bar */
-  .formhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+  .formhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
   .formhead h2{margin:0;font-size:18px;color:var(--bmi);}
   .back{background:none;border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--bmi);cursor:pointer;font-weight:600;}
   .back:hover{background:#f3f7fc;}
 
-  .note{background:#fff8e6;border:1px solid #f0d98a;border-radius:8px;padding:12px 14px;font-size:13px;color:#6b551b;margin-bottom:20px;}
+  .note{background:#eef4fc;border:1px solid #cfe0f5;border-radius:8px;padding:12px 14px;font-size:13px;color:#284b73;margin-bottom:20px;}
   fieldset{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:0 0 20px;padding:18px 20px;box-shadow:0 1px 2px rgba(16,40,80,.04);}
   legend{font-weight:700;color:var(--bmi);padding:0 8px;font-size:15px;}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 18px;}
@@ -45,18 +43,25 @@
   }
   input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(23,105,214,.13);}
   textarea{resize:vertical;min-height:62px;}
+  input[readonly]{background:#f0f3f8;color:var(--muted);}
   .radio-row{display:flex;gap:18px;align-items:center;padding-top:4px;}
   .radio-row label{display:flex;align-items:center;gap:6px;font-weight:500;color:var(--ink);margin:0;cursor:pointer;}
   .radio-row input{width:auto;margin:0;}
+  .checkrow{display:flex;align-items:center;gap:7px;font-weight:500;color:var(--ink);margin:0 0 7px;cursor:pointer;font-size:13px;}
+  .checkrow input{width:auto;margin:0;}
   table.fam{width:100%;border-collapse:collapse;}
   table.fam th{font-size:12px;color:var(--muted);text-align:left;padding:4px 6px;font-weight:600;}
   table.fam td{padding:3px 4px;}
   table.fam td.sl{width:34px;text-align:center;color:var(--muted);font-weight:600;}
   .hint{font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:400;}
+
   .sigwrap{position:relative;margin-top:6px;display:inline-block;}
   #sigPad{border:1px dashed var(--accent);border-radius:8px;background:#fcfdff;width:100%;max-width:480px;height:150px;touch-action:none;cursor:crosshair;display:block;}
   .sigclear{position:absolute;top:8px;right:8px;font-size:12px;font-weight:600;color:var(--bmi);background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;}
   .sigclear:hover{background:#f3f7fc;}
+
+  #pdfFrame{width:100%;height:70vh;min-height:480px;border:1px solid var(--line);border-radius:10px;background:#fff;}
+
   .bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;box-shadow:0 -2px 10px rgba(16,40,80,.06);}
   button.action{font-family:inherit;font-size:14px;font-weight:600;border-radius:9px;padding:11px 22px;border:1px solid transparent;cursor:pointer;}
   .btn-primary{background:var(--bmi);color:#fff;}
@@ -71,7 +76,7 @@
 <body>
 <header>
   <h1>Bengaluru Metro City Infrastructure Housing Co-operative Society Ltd.</h1>
-  <p>Online Application &middot; Reg No. JRB/RGN/CR-13/51578/2022-23 &middot; Fill the form &amp; download the official PDF</p>
+  <p>Online Application &middot; Reg No. JRB/RGN/CR-13/51578/2022-23 &middot; Fill the form, preview &amp; download the official PDF</p>
 </header>
 
 <div class="wrap">
@@ -80,16 +85,16 @@
   <section id="landing">
     <div class="note">Choose which application you want to fill. Your details are placed onto the official form and downloaded in the exact same format. Everything runs on your computer &mdash; nothing is uploaded.</div>
     <div class="choose">
-      <div class="opt" data-go="purchase">
+      <div class="opt" data-go="membership">
         <span class="tag">Form A</span>
-        <h2>Application for Purchase of Site</h2>
-        <p>Apply to purchase a site &mdash; applicant &amp; nominee details, family members, site &amp; payment particulars.</p>
+        <h2>Application for Membership</h2>
+        <p>Apply for society membership &mdash; applicant &amp; nominee details, addresses and office particulars.</p>
         <div class="go">Fill this application &rarr;</div>
       </div>
-      <div class="opt" data-go="membership">
+      <div class="opt" data-go="purchase">
         <span class="tag">Form B</span>
-        <h2>Application for Membership</h2>
-        <p>Apply for society membership &mdash; applicant &amp; nominee details, addresses, photographs &amp; membership fees.</p>
+        <h2>Application for Purchase of Site</h2>
+        <p>Apply to purchase a site &mdash; applicant &amp; nominee details, family members, site &amp; payment particulars.</p>
         <div class="go">Fill this application &rarr;</div>
       </div>
     </div>
@@ -101,28 +106,28 @@
       <h2 id="formTitle"></h2>
       <button type="button" class="back" id="backBtn">&larr; Change application</button>
     </div>
-    <div class="note" style="background:#eef4fc;border-color:#cfe0f5;color:#284b73;">All fields are required unless marked <b>(optional)</b>. The <b>Download</b> button will not produce the PDF until every required field is filled.</div>
+    <div class="note">Fill in the details you have and click <b>Preview</b>. You can review everything and sign before downloading.</div>
 
     <fieldset data-apps="purchase">
       <legend>Site Details</legend>
       <div class="grid">
-        <div><label>Site measuring (size)</label><input type="text" id="siteMeasuring" placeholder="e.g. 30 x 40 ft" required></div>
-        <div><label>Layout name</label><input type="text" id="layoutName" placeholder="e.g. BMI Green Valley" required></div>
+        <div><label>Site measuring (size)</label><input type="text" id="siteMeasuring" placeholder="e.g. 30 x 40 ft"></div>
+        <div><label>Layout name</label><input type="text" id="layoutName" placeholder="e.g. BMI Green Valley"></div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Applicant Details</legend>
       <div class="grid">
-        <div class="full"><label class="req">Name of applicant (in BLOCK letters)</label><input type="text" id="name" placeholder="RAVI KUMAR SHARMA" style="text-transform:uppercase" required></div>
-        <div><label>Father's / Husband's name</label><input type="text" id="father" style="text-transform:uppercase" required></div>
-        <div data-apps="membership"><label>Place of birth</label><input type="text" id="placeOfBirth" placeholder="e.g. Bengaluru" required></div>
-        <div><label>Age</label><input type="number" id="age" min="18" max="120" required></div>
-        <div><label>Date of birth</label><input type="date" id="dob" required></div>
+        <div class="full"><label>Name of applicant (in BLOCK letters)</label><input type="text" id="name" placeholder="RAVI KUMAR SHARMA" style="text-transform:uppercase"></div>
+        <div><label>Father's / Husband's name</label><input type="text" id="father" style="text-transform:uppercase"></div>
+        <div data-apps="membership"><label>Place of birth</label><input type="text" id="placeOfBirth" placeholder="e.g. Bengaluru"></div>
+        <div><label>Date of birth</label><input type="date" id="dob"></div>
+        <div><label>Age <span class="hint">(auto-filled from date of birth)</span></label><input type="number" id="age" min="0" max="120"></div>
         <div data-apps="purchase">
           <label>Belongs to SC / ST ?</label>
           <div class="radio-row">
-            <label><input type="radio" name="scst" value="Y" required> Yes</label>
+            <label><input type="radio" name="scst" value="Y"> Yes</label>
             <label><input type="radio" name="scst" value="N"> No</label>
           </div>
           <div class="hint">If Yes, attach certificate from competent authority.</div>
@@ -130,7 +135,7 @@
         <div data-apps="purchase">
           <label>Resident status</label>
           <div class="radio-row">
-            <label><input type="radio" name="resident" value="Y" required> Ordinary resident</label>
+            <label><input type="radio" name="resident" value="Y"> Ordinary resident</label>
             <label><input type="radio" name="resident" value="N"> Native of Karnataka</label>
           </div>
         </div>
@@ -140,42 +145,46 @@
     <fieldset>
       <legend>Contact &amp; Address</legend>
       <div class="grid">
-        <div class="full"><label>Address for correspondence</label><textarea id="addressCorr" placeholder="House no, street, area, city, state - pincode" required></textarea></div>
-        <div><label>Phone (Residence) <span class="hint">(optional)</span></label><input type="tel" id="phoneR"></div>
-        <div><label>Phone (Office) <span class="hint">(optional)</span></label><input type="tel" id="phoneO"></div>
-        <div><label>Mobile</label><input type="tel" id="mobile" required></div>
-        <div><label>E-mail</label><input type="email" id="email" required></div>
+        <div class="full"><label>Address for correspondence</label><textarea id="addressCorr" placeholder="House no, street, area, city, state - pincode"></textarea></div>
+        <div><label>Phone (Residence)</label><input type="tel" id="phoneR"></div>
+        <div><label>Phone (Office)</label><input type="tel" id="phoneO"></div>
+        <div><label>Mobile</label><input type="tel" id="mobile"></div>
+        <div><label>E-mail</label><input type="email" id="email"></div>
       </div>
     </fieldset>
 
     <fieldset data-apps="membership">
       <legend>Permanent Address &amp; Office</legend>
       <div class="grid">
-        <div class="full"><label>Permanent address <span class="hint">(optional — leave blank to reuse correspondence address)</span></label><textarea id="permAddr"></textarea></div>
-        <div class="full"><label>Designation &amp; full office address</label><textarea id="designation" placeholder="Designation, company, office address" required></textarea></div>
+        <div class="full">
+          <label>Permanent address</label>
+          <label class="checkrow"><input type="checkbox" id="permSame"> Same as correspondence address</label>
+          <textarea id="permAddr" placeholder="Type the permanent address"></textarea>
+        </div>
+        <div class="full"><label>Designation &amp; full office address</label><textarea id="designation" placeholder="Designation, company, office address"></textarea></div>
       </div>
     </fieldset>
 
     <fieldset data-apps="purchase">
       <legend>Employment Particulars</legend>
       <div class="grid">
-        <div class="full"><label>Place of employment &amp; address</label><textarea id="employment" placeholder="Designation, company, office address" required></textarea></div>
+        <div class="full"><label>Place of employment &amp; address</label><textarea id="employment" placeholder="Designation, company, office address"></textarea></div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Nominee Details</legend>
       <div class="grid">
-        <div><label>Nominee name</label><input type="text" id="nomName" style="text-transform:uppercase" required></div>
-        <div><label>Relationship</label><input type="text" id="nomRel" placeholder="e.g. Wife / Son" required></div>
-        <div><label>Nominee age <span class="hint">(optional)</span></label><input type="number" id="nomAge" min="0" max="120"></div>
-        <div data-apps="membership"><label>Nominee date of birth <span class="hint">(optional)</span></label><input type="date" id="nomDob"></div>
-        <div class="full"><label>Nominee address <span class="hint">(optional)</span></label><textarea id="nomAddr" placeholder="Type 'Same as above' if same"></textarea></div>
+        <div><label>Nominee name</label><input type="text" id="nomName" style="text-transform:uppercase"></div>
+        <div><label>Relationship</label><input type="text" id="nomRel" placeholder="e.g. Wife / Son"></div>
+        <div><label>Nominee age</label><input type="number" id="nomAge" min="0" max="120"></div>
+        <div data-apps="membership"><label>Nominee date of birth</label><input type="date" id="nomDob"></div>
+        <div class="full"><label>Nominee address</label><textarea id="nomAddr" placeholder="Type 'Same as above' if same"></textarea></div>
       </div>
     </fieldset>
 
     <fieldset data-apps="purchase">
-      <legend>Family Members staying with you <span class="hint" style="font-weight:400">(optional)</span></legend>
+      <legend>Family Members staying with you</legend>
       <table class="fam">
         <thead><tr><th>#</th><th>Name</th><th style="width:90px">Age</th><th style="width:32%">Relationship</th></tr></thead>
         <tbody id="famBody"></tbody>
@@ -185,37 +194,51 @@
     <fieldset data-apps="purchase">
       <legend>Payment Details</legend>
       <div class="grid">
-        <div class="full"><label>Cheque / DD No. / Online transaction details</label><input type="text" id="purBankInstr" placeholder="e.g. DD No 558211 dated 10-06-2026" required></div>
-        <div><label>Bank</label><input type="text" id="purBank" required></div>
-        <div><label>Amount</label><input type="text" id="purAmount" placeholder="e.g. Rs. 2,500/-" required></div>
+        <div class="full"><label>Cheque / DD No. / Online transaction details</label><input type="text" id="purBankInstr" placeholder="e.g. DD No 558211 dated 10-06-2026"></div>
+        <div><label>Bank</label><input type="text" id="purBank"></div>
+        <div><label>Amount</label><input type="text" id="purAmount" placeholder="e.g. Rs. 2,500/-"></div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Place &amp; Date (Declaration)</legend>
       <div class="grid">
-        <div><label>Place</label><input type="text" id="place" placeholder="e.g. Bengaluru" required></div>
-        <div><label>Date</label><input type="date" id="date" required></div>
+        <div><label>Place</label><input type="text" id="place" placeholder="e.g. Bengaluru"></div>
+        <div><label>Date</label><input type="date" id="date"></div>
       </div>
     </fieldset>
+  </form>
 
-    <fieldset>
+  <!-- ============ PREVIEW + SIGN ============ -->
+  <section id="previewView" class="hidden">
+    <div class="formhead">
+      <h2 id="previewTitle">Preview your application</h2>
+      <button type="button" class="back" id="editBtn">&larr; Back to edit</button>
+    </div>
+    <div class="note">Review your filled application below. If everything is correct, sign in the box and download. Your signature will appear on the downloaded PDF.</div>
+    <iframe id="pdfFrame" title="Application preview"></iframe>
+
+    <fieldset style="margin-top:20px;">
       <legend>Signature of the Applicant</legend>
       <label>Sign in the box below using your mouse, trackpad or finger.</label>
       <div class="sigwrap">
         <canvas id="sigPad" width="640" height="180"></canvas>
         <button type="button" class="sigclear" id="sigClear">Clear</button>
       </div>
-      <div class="hint">This signature is placed on the "Signature of the Applicant" line of the PDF. Leave blank to sign by hand after printing. The photograph box is intentionally left empty for a physical photo to be pasted after printing.</div>
+      <div class="hint">Leave blank to sign by hand after printing. The photograph box is left empty for a physical photo to be pasted after printing.</div>
     </fieldset>
-  </form>
+
+    <div style="text-align:center;margin:18px 0 60px;">
+      <button type="button" class="action btn-primary" id="downloadBtn" style="font-size:15px;padding:13px 30px;">⬇ Download PDF</button>
+    </div>
+  </section>
 
 </div>
 
 <div class="bar hidden" id="actionBar">
   <span class="saved" id="savedMsg">✓ Saved</span>
   <button type="button" class="action btn-ghost" id="clearBtn">Clear form</button>
-  <button type="button" class="action btn-primary" id="genBtn">⬇ Generate &amp; Download PDF</button>
+  <button type="button" class="action btn-primary" id="previewBtn">Preview &amp; Sign &rarr;</button>
 </div>
 
 <!-- PDF library: load from CDN (works on any web host), fall back to the

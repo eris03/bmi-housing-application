@@ -85,21 +85,43 @@
               390.1, 404.9, 419.6, 434.4, 449.3, 464.0, 478.8, 493.6, 508.4, 523.1, 538.0]
   };
 
-  // Draw text one character per box, centred in each cell. If the value is
+  function drawCellChar(page, font, ch, cx, y, size, color) {
+    if (ch === ' ') return; // leave the box blank for spaces
+    var w = font.widthOfTextAtSize(ch, size);
+    page.drawText(ch, { x: cx - w / 2, y: y, size: size, font: font, color: color });
+  }
+
+  // Draw text one BLOCK letter per box, centred in each cell. If the value is
   // longer than the available cells, fall back to continuous text starting at
   // the first cell (so long values like e-mails never overflow the boxes).
   function drawComb(page, font, text, centers, y, size, color) {
-    text = sanitize(text).replace(/\s+$/, '');
-    if (!text.trim()) return;
-    if (text.length <= centers.length) {
-      for (var i = 0; i < text.length; i++) {
-        var ch = text[i];
-        if (ch === ' ') continue; // leave the box blank for spaces
-        var w = font.widthOfTextAtSize(ch, size);
-        page.drawText(ch, { x: centers[i] - w / 2, y: y, size: size, font: font, color: color });
-      }
+    var raw = sanitize(text).replace(/\s+$/, '');
+    if (!raw.trim()) return;
+    var t = raw.toUpperCase();
+    if (t.length <= centers.length) {
+      for (var i = 0; i < t.length; i++) drawCellChar(page, font, t[i], centers[i], y, size, color);
     } else {
-      draw(page, font, text, centers[0] - 6, y, size, color);
+      draw(page, font, raw, centers[0] - 6, y, size, color); // keep original case (e-mails)
+    }
+  }
+
+  // Flow BLOCK letters one per box across several rows that share the same
+  // column centres (used for the address / employment grids on page 1).
+  function drawCombFlow(page, font, text, centers, ys, size, color) {
+    var raw = sanitize(text).replace(/\s+$/, '');
+    if (!raw.trim()) return;
+    var t = raw.toUpperCase();
+    if (t.length > centers.length * ys.length) {
+      // too long for the boxes -> flow as continuous wrapped text instead
+      drawWrapped(page, font, raw, centers[0] - 6, ys, size, color,
+        centers[centers.length - 1] - centers[0] + 12, size + 4);
+      return;
+    }
+    var idx = 0;
+    for (var r = 0; r < ys.length && idx < t.length; r++) {
+      for (var c = 0; c < centers.length && idx < t.length; c++) {
+        drawCellChar(page, font, t[idx++], centers[c], ys[r], size, color);
+      }
     }
   }
 
@@ -126,7 +148,7 @@
     var pdfDoc = await PDFDocument.load(templateBytes);
     var font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     var fontB = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-    var ink = rgb(0.05, 0.08, 0.45); // dark blue, reads as hand-filled ink
+    var ink = rgb(0, 0, 0); // black ink
 
     var white = rgb(1, 1, 1);
     var pages = pdfDoc.getPages();
@@ -151,15 +173,15 @@
     if (g('scst') === 'Y') circle(p1, 198.5, 447, 7, 7, ink);
     else if (g('scst') === 'N') circle(p1, 212, 447, 7, 7, ink);
 
-    // 5. Address for correspondence (2 lines) + contacts
-    drawWrapped(p1, font, g('addressCorr'), 192, [403, 389], 9, ink, 340, 13);
+    // 5. Address for correspondence (one block letter per box, 3 rows) + contacts
+    drawCombFlow(p1, font, g('addressCorr'), CELLS.main, [405, 388.5, 372], 9, ink);
     drawComb(p1, font, g('phoneR'), CELLS.contact, 356.5, 9, ink); // same box row as mobile
     drawComb(p1, font, g('phoneO'), CELLS.phoneO, 356.5, 9, ink); // (O) office phone
     drawComb(p1, font, g('mobile'), CELLS.contact, 337, 9, ink);
     drawComb(p1, font, g('email'), CELLS.contact, 317.5, 9, ink);
 
-    // 6. Employment particulars (up to 3 lines)
-    drawWrapped(p1, font, g('employment'), 192, [294, 281, 268], 9, ink, 345, 12);
+    // 6. Employment particulars (one block letter per box, 2 rows)
+    drawCombFlow(p1, font, g('employment'), CELLS.main, [290.5, 271.5], 9, ink);
 
     // 7. Ordinary resident / Native of Karnataka -> circle Y or N
     if (g('resident') === 'Y') circle(p1, 199, 243, 7, 7, ink);
@@ -193,31 +215,31 @@
     // ============ APPLICATION FOR MEMBERSHIP (pages 3-4) ==================
     if (mode !== 'purchase') {
     // ===================== PAGE 3 : Membership ==========================
-    draw(p3, font, g('phoneR'), 138, 71, 9, ink);
-    draw(p3, font, g('phoneO'), 326, 71, 9, ink);
-    draw(p3, font, g('mobile'), 98, 47.5, 9, ink);
-    draw(p3, font, g('email'), 343, 47.5, 9, ink);
+    draw(p3, font, g('phoneR'), 138, 73.5, 9, ink);
+    draw(p3, font, g('phoneO'), 326, 73.5, 9, ink);
+    draw(p3, font, g('mobile'), 98, 50, 9, ink);
+    draw(p3, font, g('email'), 343, 50, 9, ink);
 
-    draw(p3, fontB, g('name'), 270, 596, 10, ink);
+    draw(p3, fontB, g('name').toUpperCase(), 270, 599, 10, ink);
     var dobPlaceAge = [fmtDate(g('dob')), g('placeOfBirth'), g('age') && ('Age ' + g('age'))]
       .filter(Boolean).join(', ');
-    draw(p3, font, dobPlaceAge, 200, 576, 9, ink);
-    draw(p3, font, g('father'), 205, 555, 9, ink);
+    draw(p3, font, dobPlaceAge, 200, 578, 9, ink);
+    draw(p3, font, g('father').toUpperCase(), 205, 557, 9, ink);
 
-    // 4. Address for correspondence (left, 4 dotted lines)
-    drawWrapped(p3, font, g('addressCorr'), 70, [505, 478.5, 452, 425.5], 9.5, ink, 205, 26);
+    // 4. Address for correspondence (left, 4 dotted lines) — sit above the dots
+    drawWrapped(p3, font, g('addressCorr'), 70, [508, 481.5, 455, 428.5], 9.5, ink, 205, 26);
     // 7. Permanent address (left, 3 dotted lines)
-    drawWrapped(p3, font, g('permAddr') || g('addressCorr'), 64, [388, 361.5, 335], 9.5, ink, 225, 26);
+    drawWrapped(p3, font, g('permAddr') || g('addressCorr'), 64, [391, 364.5, 338], 9.5, ink, 225, 26);
     // 8. Designation & full office address (right, 3 dotted lines)
-    drawWrapped(p3, font, g('designation'), 310, [388, 361.5, 335], 9.5, ink, 220, 26);
+    drawWrapped(p3, font, g('designation'), 310, [391, 364.5, 338], 9.5, ink, 220, 26);
 
     // 9. Nominee (left: name, age/dob ; right: relationship, address)
-    draw(p3, font, g('nomName'), 115, 297.5, 9, ink);
+    draw(p3, font, g('nomName').toUpperCase(), 115, 297.5, 9, ink);
     var nomAgeDob = [g('nomAge') && ('Age ' + g('nomAge')), g('nomDob') && fmtDate(g('nomDob'))]
       .filter(Boolean).join(', ');
     draw(p3, font, nomAgeDob, 135, 264.5, 9, ink);
-    draw(p3, font, g('nomRel'), 365, 320, 9, ink);
-    drawWrapped(p3, font, g('nomAddr'), 380, [298, 276], 8.5, ink, 150, 22);
+    draw(p3, font, g('nomRel'), 365, 322, 9, ink);
+    drawWrapped(p3, font, g('nomAddr'), 380, [301, 279], 8.5, ink, 150, 22);
 
     // Shares (pre-printed TEN), Remarks and the Payment section are left blank
     // on the form for the society's office to complete.
