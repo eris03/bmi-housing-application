@@ -220,11 +220,12 @@
     draw(p3, font, g('mobile'), 98, 50, 9, ink);
     draw(p3, font, g('email'), 343, 50, 9, ink);
 
-    draw(p3, fontB, g('name').toUpperCase(), 270, 599, 10, ink);
+    // Answers aligned into the form's right column (label = left column)
+    draw(p3, fontB, g('name').toUpperCase(), 305, 599, 10, ink);
     var dobPlaceAge = [fmtDate(g('dob')), g('placeOfBirth'), g('age') && ('Age ' + g('age'))]
       .filter(Boolean).join(', ');
-    draw(p3, font, dobPlaceAge, 200, 578, 9, ink);
-    draw(p3, font, g('father').toUpperCase(), 205, 557, 9, ink);
+    draw(p3, font, dobPlaceAge, 305, 578, 9, ink);
+    draw(p3, font, g('father').toUpperCase(), 305, 557, 9, ink);
 
     // 4. Address for correspondence (left, 4 dotted lines) — sit above the dots
     drawWrapped(p3, font, g('addressCorr'), 70, [508, 481.5, 455, 428.5], 9.5, ink, 205, 26);
