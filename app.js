@@ -188,6 +188,37 @@
     return await window.BMIOverlay.fillPdf(window.PDFLib, templateBytes(), data, images, currentApp);
   }
 
+  async function renderPreview(bytes) {
+    var container = document.getElementById('pdfPreview');
+    container.innerHTML = '<div class="hint" style="text-align:center;padding:24px">Loading preview…</div>';
+    var pdfjsLib = window.pdfjsLib;
+    if (!pdfjsLib) {
+      container.innerHTML = '<div class="hint" style="text-align:center;padding:24px">Inline preview unavailable here — use “Open preview in a new tab”.</div>';
+      return;
+    }
+    try {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdf.worker.min.js';
+      var doc = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
+      container.innerHTML = '';
+      var targetW = Math.min(container.clientWidth - 28, 900) || 760;
+      var dpr = window.devicePixelRatio || 1;
+      for (var p = 1; p <= doc.numPages; p++) {
+        var page = await doc.getPage(p);
+        var v1 = page.getViewport({ scale: 1 });
+        var vp = page.getViewport({ scale: (targetW / v1.width) * dpr });
+        var canvas = document.createElement('canvas');
+        canvas.width = vp.width; canvas.height = vp.height;
+        canvas.style.width = '100%'; canvas.style.maxWidth = targetW + 'px';
+        canvas.style.display = 'block'; canvas.style.margin = '0 auto 14px'; canvas.style.borderRadius = '6px';
+        container.appendChild(canvas);
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+      }
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = '<div class="hint" style="text-align:center;padding:24px">Could not render the inline preview — use “Open preview in a new tab”.</div>';
+    }
+  }
+
   async function previewApp() {
     if (!currentApp) return;
     var btn = document.getElementById('previewBtn');
@@ -196,12 +227,12 @@
       var bytes = await buildPdf();
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       previewUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
-      document.getElementById('pdfFrame').src = previewUrl;
       document.getElementById('previewTitle').textContent = 'Preview — ' + APPS[currentApp].title;
       document.getElementById('appForm').classList.add('hidden');
       document.getElementById('actionBar').classList.add('hidden');
       document.getElementById('previewView').classList.remove('hidden');
       window.scrollTo(0, 0);
+      await renderPreview(bytes);
     } catch (e) {
       console.error(e);
       alert('Could not build the preview:\n' + (e && e.message ? e.message : e));
@@ -247,6 +278,9 @@
     document.getElementById('backBtn').addEventListener('click', backToLanding);
     document.getElementById('editBtn').addEventListener('click', backToForm);
     document.getElementById('previewBtn').addEventListener('click', previewApp);
+    document.getElementById('openTabBtn').addEventListener('click', function () {
+      if (previewUrl) window.open(previewUrl, '_blank');
+    });
     document.getElementById('downloadBtn').addEventListener('click', downloadPdf);
     document.getElementById('clearBtn').addEventListener('click', function () {
       if (!confirm('Clear all entered details? This cannot be undone.')) return;
