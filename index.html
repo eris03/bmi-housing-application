@@ -19,8 +19,7 @@
   header::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
                 background:rgba(255,255,255,.06);}
   .brand{display:flex;align-items:center;gap:14px;max-width:980px;margin:0 auto;position:relative;z-index:1;}
-  .logo{flex:none;width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
-        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;letter-spacing:.5px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .logo-img{flex:none;width:52px;height:52px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,.92);padding:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);}
   .brand h1{margin:0;font-size:18.5px;letter-spacing:.2px;line-height:1.25;}
   .brand p{margin:3px 0 0;font-size:12px;opacity:.9;}
   .wrap{max-width:980px;margin:26px auto;padding:0 16px 96px;}
@@ -89,7 +88,7 @@
 <body>
 <header>
   <div class="brand">
-    <div class="logo">BMI</div>
+    <img src="logo.png" alt="BMI Logo" class="logo-img">
     <div>
       <h1>Bengaluru Metro City Infrastructure Housing Co-operative Society Ltd.</h1>
     </div>
@@ -103,13 +102,13 @@
     <div class="note">Choose which application you want to fill. Your details are placed onto the official form and downloaded in the exact same format. Everything runs on your computer &mdash; nothing is uploaded.</div>
     <div class="choose">
       <div class="opt" data-go="membership">
-        <div class="opt-top"><span class="opt-ic">📋</span><span class="tag">Form A</span></div>
+        <div class="opt-top"><span class="opt-ic" style="font-size:15px;font-weight:800;letter-spacing:.5px">A</span><span class="tag">Form A</span></div>
         <h2>Application for Membership</h2>
         <p>Apply for society membership &mdash; applicant &amp; nominee details, addresses and office particulars.</p>
         <div class="go">Fill this application &rarr;</div>
       </div>
       <div class="opt" data-go="purchase">
-        <div class="opt-top"><span class="opt-ic">🏡</span><span class="tag">Form B</span></div>
+        <div class="opt-top"><span class="opt-ic" style="font-size:15px;font-weight:800;letter-spacing:.5px">B</span><span class="tag">Form B</span></div>
         <h2>Application for Purchase of Site</h2>
         <p>Apply to purchase a site &mdash; applicant &amp; nominee details, family members, site &amp; payment particulars.</p>
         <div class="go">Fill this application &rarr;</div>
@@ -249,7 +248,7 @@
     </fieldset>
 
     <div style="text-align:center;margin:18px 0 60px;">
-      <button type="button" class="action btn-primary" id="downloadBtn" style="font-size:15px;padding:13px 30px;">⬇ Download PDF</button>
+      <button type="button" class="action btn-primary" id="downloadBtn" style="font-size:15px;padding:13px 30px;">Download PDF</button>
     </div>
   </section>
 
