@@ -203,10 +203,11 @@
 
     // ===================== PAGE 1 : Purchase of Site =====================
     if (serial) draw(p1, fontB, serial, 480, 708, 13, red); // Sl. No. (red)
-    // Site size + layout name sit on the two dotted blanks, both at the same
-    // baseline level as the printed line text, with the dots masked beneath.
-    drawOnDottedLine(p1, g('siteMeasuring'), 300, 585.5, 10);
-    drawOnDottedLine(p1, g('layoutName'), 74, 573, 10);
+    // Site size + layout name sit on the two dotted blanks on the SAME line
+    // ("…site Measuring [size] in [layout]"), both at the printed-text baseline
+    // (y=579.9), with the dots masked beneath each value.
+    drawOnDottedLine(p1, g('siteMeasuring'), 249, 579, 9);
+    drawOnDottedLine(p1, g('layoutName'), 372, 579, 10);
     drawComb(p1, fontB, g('name'), CELLS.main, Y(534.7), 11, ink);
     drawComb(p1, fontB, g('father'), CELLS.main, Y(498.4), 11, ink);
     drawComb(p1, fontB, ageDobCells, CELLS.main, Y(473.4), 11, ink);

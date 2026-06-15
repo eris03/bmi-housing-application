@@ -113,6 +113,20 @@
     ac.addEventListener('input', function () { if (cb.checked) pa.value = ac.value; });
   }
 
+  // ---- nominee address "same as applicant" -------------------------------
+  function setupNomSame() {
+    var cb = document.getElementById('nomSame');
+    var na = document.getElementById('nomAddr');
+    var ac = document.getElementById('addressCorr');
+    if (!cb || !na || !ac) return;
+    function sync() {
+      if (cb.checked) { na.value = ac.value; na.readOnly = true; }
+      else { na.readOnly = false; }
+    }
+    cb.addEventListener('change', sync);
+    ac.addEventListener('input', function () { if (cb.checked) na.value = ac.value; });
+  }
+
   // ---- signature pad -----------------------------------------------------
   function dataUrlToBytes(durl) {
     var b64 = durl.split(',')[1], bin = atob(b64), u = new Uint8Array(bin.length);
@@ -269,6 +283,7 @@
     restoreDraft();
     setupSignature();
     setupPermSame();
+    setupNomSame();
     document.getElementById('dob').addEventListener('change', calcAge);
     document.getElementById('appForm').addEventListener('input', saveDraft);
 
@@ -288,6 +303,7 @@
       document.getElementById('appForm').reset();
       if (sigClearFn) sigClearFn();
       var pa = document.getElementById('permAddr'); if (pa) pa.readOnly = false;
+      var na = document.getElementById('nomAddr'); if (na) na.readOnly = false;
     });
 
     if (!window.PDFLib || !window.BMIOverlay || !window.TEMPLATE_PDF_BASE64) {

@@ -353,7 +353,11 @@
         <div><label>Relationship</label><input type="text" id="nomRel" placeholder="e.g. Wife / Son"></div>
         <div><label>Nominee age</label><input type="number" id="nomAge" min="0" max="120"></div>
         <div data-apps="membership"><label>Nominee date of birth</label><input type="date" id="nomDob"></div>
-        <div class="full"><label>Nominee address</label><textarea id="nomAddr" placeholder="Type 'Same as above' if same"></textarea></div>
+        <div class="full">
+          <label>Nominee address</label>
+          <label class="checkrow"><input type="checkbox" id="nomSame"> Same as applicant address</label>
+          <textarea id="nomAddr" placeholder="Type the nominee's address"></textarea>
+        </div>
       </div>
     </fieldset>
 
@@ -427,8 +431,8 @@
 <script src="lib/pdf.min.js"></script>
 <!-- ?v= cache-buster: bump this when overlay.js / app.js / template.js change
      so browsers + the GitHub Pages CDN fetch the new file instead of a stale copy. -->
-<script src="template.js?v=8"></script>
-<script src="overlay.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="template.js?v=9"></script>
+<script src="overlay.js?v=9"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
