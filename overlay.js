@@ -205,9 +205,9 @@
     function drawOnDottedLine(page, text, x, baselineY, size) {
       text = sanitize(text).trim();
       if (!text) return;
-      var w = font.widthOfTextAtSize(text, size);
+      var w = fontB.widthOfTextAtSize(text, size);
       page.drawRectangle({ x: x - 3, y: baselineY - 3.5, width: w + 7, height: size + 6, color: formGreen });
-      page.drawText(text, { x: x, y: baselineY, size: size, font: font, color: ink });
+      page.drawText(text, { x: x, y: baselineY, size: size, font: fontB, color: ink });
     }
 
     // ===================== PAGE 1 : Purchase of Site =====================
@@ -217,49 +217,49 @@
     // (y=579.9), with the dots masked beneath each value.
     drawOnDottedLine(p1, g('siteMeasuring'), 249, 579, 9);
     drawOnDottedLine(p1, g('layoutName'), 372, 579, 10);
-    drawComb(p1, fontB, g('name'), CELLS.main, Y(534.7), 11, ink);
-    drawComb(p1, fontB, g('father'), CELLS.main, Y(498.4), 11, ink);
-    drawComb(p1, fontB, ageDobCells, CELLS.main, Y(473.4), 11, ink);
+    drawComb(p1, font, g('name'), CELLS.main, Y(534.7), 11, ink);
+    drawComb(p1, font, g('father'), CELLS.main, Y(498.4), 11, ink);
+    drawComb(p1, font, ageDobCells, CELLS.main, Y(473.4), 11, ink);
 
     // 4. SC/ST  -> circle Y or N  (printed Y@199, N@213, glyph centre y~440)
     if (g('scst') === 'Y') circle(p1, 199, Y(440), 7, 7, ink);
     else if (g('scst') === 'N') circle(p1, 213, Y(440), 7, 7, ink);
 
     // 5. Address for correspondence (one block letter per box, 3 rows) + contacts
-    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, YS([403.4, 388.1, 373.1]), 10.5, ink);
-    drawComb(p1, fontB, g('phoneR'), CELLS.contact, Y(353.1), 10.5, ink);
-    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, Y(353.1), 10.5, ink);
-    drawComb(p1, fontB, g('mobile'), CELLS.mobile, Y(332.1), 10.5, ink);
-    drawComb(p1, fontB, g('email'), CELLS.email, Y(312.4), 9.5, ink);
+    drawCombFlow(p1, font, g('addressCorr'), CELLS.main, YS([403.4, 388.1, 373.1]), 10.5, ink);
+    drawComb(p1, font, g('phoneR'), CELLS.contact, Y(353.1), 10.5, ink);
+    drawComb(p1, font, g('phoneO'), CELLS.phoneO, Y(353.1), 10.5, ink);
+    drawComb(p1, font, g('mobile'), CELLS.mobile, Y(332.1), 10.5, ink);
+    drawComb(p1, font, g('email'), CELLS.email, Y(312.4), 9.5, ink);
 
     // 6. Employment particulars (one block letter per box, 2 rows)
-    drawCombFlow(p1, fontB, g('employment'), CELLS.main, YS([288.9, 273.9]), 10.5, ink);
+    drawCombFlow(p1, font, g('employment'), CELLS.main, YS([288.9, 273.9]), 10.5, ink);
 
     // 7. Ordinary resident / Native of Karnataka -> circle Y or N (glyph y~238)
     if (g('resident') === 'Y') circle(p1, 199.5, Y(238), 7, 7, ink);
     else if (g('resident') === 'N') circle(p1, 213.5, Y(238), 7, 7, ink);
 
     // 8. Nominee particulars (one char per box)
-    drawComb(p1, fontB, g('nomName'), CELLS.nomName, Y(208.4), 10.5, ink);
-    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, Y(190.9), 10.5, ink);
-    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, Y(190.9), 10.5, ink);
-    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, Y(173.4), 10.5, ink);
+    drawComb(p1, font, g('nomName'), CELLS.nomName, Y(208.4), 10.5, ink);
+    drawComb(p1, font, g('nomAge'), CELLS.nomAge, Y(190.9), 10.5, ink);
+    drawComb(p1, font, g('nomRel'), CELLS.nomRel, Y(190.9), 10.5, ink);
+    drawComb(p1, font, g('nomAddr'), CELLS.nomAddr, Y(173.4), 10.5, ink);
 
     // 9. Family members (up to 5 rows): name @225, age @383, rel @443
     var famY = [108, 88, 68.5, 49, 29.5];
     (data.family || []).slice(0, 5).forEach(function (m, i) {
       if (!m) return;
-      draw(p1, fontB, m.name, 225, famY[i], 9, ink);
-      draw(p1, fontB, m.age, 388, famY[i], 9, ink);
-      draw(p1, fontB, m.relationship, 443, famY[i], 9, ink);
+      draw(p1, font, m.name, 225, famY[i], 9, ink);
+      draw(p1, font, m.age, 388, famY[i], 9, ink);
+      draw(p1, font, m.relationship, 443, famY[i], 9, ink);
     });
 
     // ===================== PAGE 2 : Purchase (payment + sign) ============
-    drawWrapped(p2, fontB, g('purBankInstr'), 395, [822, 798], 9, ink, 140, 13);
-    draw(p2, fontB, g('purBank'), 278, 773.5, 10, ink);
-    draw(p2, fontB, g('purAmount'), 292, 748, 10, ink);
-    draw(p2, fontB, g('place'), 95, 512, 11, ink);
-    draw(p2, fontB, fmtDate(g('date')), 90, 472, 11, ink);
+    drawWrapped(p2, font, g('purBankInstr'), 395, [822, 798], 9, ink, 140, 13);
+    draw(p2, font, g('purBank'), 278, 773.5, 10, ink);
+    draw(p2, font, g('purAmount'), 292, 748, 10, ink);
+    draw(p2, font, g('place'), 95, 512, 11, ink);
+    draw(p2, font, fmtDate(g('date')), 90, 472, 11, ink);
     // Digital signature above "Signature of the Applicant"
     await placeImage(pdfDoc, p2, images.signature, 386, 474, 140, 40, null);
     } // end purchase
@@ -268,31 +268,31 @@
     if (mode !== 'purchase') {
     // ===================== PAGE 3 : Membership ==========================
     if (serial) draw(p3, font, serial, 478, 694, 13, red); // Sl. No. (red)
-    draw(p3, fontB, g('phoneR'), 138, 73.5, 11, ink);
-    draw(p3, fontB, g('phoneO'), 326, 73.5, 11, ink);
-    draw(p3, fontB, g('mobile'), 98, 50, 11, ink);
-    draw(p3, fontB, g('email'), 343, 50, 11, ink);
+    draw(p3, font, g('phoneR'), 138, 73.5, 11, ink);
+    draw(p3, font, g('phoneO'), 326, 73.5, 11, ink);
+    draw(p3, font, g('mobile'), 98, 50, 11, ink);
+    draw(p3, font, g('email'), 343, 50, 11, ink);
 
-    draw(p3, fontB, g('name').toUpperCase(), 305, 599, 13, ink);
+    draw(p3, font, g('name').toUpperCase(), 305, 599, 13, ink);
     var dobPlaceAge = [fmtDate(g('dob')), g('placeOfBirth'), g('age') && ('Age ' + g('age'))]
       .filter(Boolean).join(', ');
-    draw(p3, fontB, dobPlaceAge, 305, 578, 11, ink);
-    draw(p3, fontB, g('father').toUpperCase(), 305, 557, 11, ink);
+    draw(p3, font, dobPlaceAge, 305, 578, 11, ink);
+    draw(p3, font, g('father').toUpperCase(), 305, 557, 11, ink);
 
     // 4. Address for correspondence (left, 4 dotted lines) — sit above the dots
-    drawWrapped(p3, fontB, g('addressCorr'), 70, [508, 481.5, 455, 428.5], 11, ink, 205, 26);
+    drawWrapped(p3, font, g('addressCorr'), 70, [508, 481.5, 455, 428.5], 11, ink, 205, 26);
     // 7. Permanent address (left, 3 dotted lines)
-    drawWrapped(p3, fontB, g('permAddr') || g('addressCorr'), 64, [391, 364.5, 338], 11, ink, 225, 26);
+    drawWrapped(p3, font, g('permAddr') || g('addressCorr'), 64, [391, 364.5, 338], 11, ink, 225, 26);
     // 8. Designation & full office address (right, 3 dotted lines)
-    drawWrapped(p3, fontB, g('designation'), 310, [391, 364.5, 338], 11, ink, 220, 26);
+    drawWrapped(p3, font, g('designation'), 310, [391, 364.5, 338], 11, ink, 220, 26);
 
     // 9. Nominee (left: name, age/dob ; right: relationship, address)
-    draw(p3, fontB, g('nomName').toUpperCase(), 115, 297.5, 11, ink);
+    draw(p3, font, g('nomName').toUpperCase(), 115, 297.5, 11, ink);
     var nomAgeDob = [g('nomAge') && ('Age ' + g('nomAge')), g('nomDob') && fmtDate(g('nomDob'))]
       .filter(Boolean).join(', ');
-    draw(p3, fontB, nomAgeDob, 135, 264.5, 11, ink);
-    draw(p3, fontB, g('nomRel'), 365, 322, 11, ink);
-    drawWrapped(p3, fontB, g('nomAddr'), 380, [301, 279], 11, ink, 150, 22);
+    draw(p3, font, nomAgeDob, 135, 264.5, 11, ink);
+    draw(p3, font, g('nomRel'), 365, 322, 11, ink);
+    drawWrapped(p3, font, g('nomAddr'), 380, [301, 279], 11, ink, 150, 22);
 
     // Shares (pre-printed TEN), Remarks and the Payment section are left blank
     // on the form for the society's office to complete.
@@ -301,8 +301,8 @@
     // pasted onto the printed form by the society.
 
     // ===================== PAGE 4 : Membership declaration ==============
-    draw(p4, fontB, g('place'), 95, 513, 11, ink);
-    draw(p4, fontB, fmtDate(g('date')), 90, 479, 11, ink);
+    draw(p4, font, g('place'), 95, 513, 11, ink);
+    draw(p4, font, fmtDate(g('date')), 90, 479, 11, ink);
     // Digital signature above "Signature of the Applicant"
     await placeImage(pdfDoc, p4, images.signature, 388, 476, 140, 40, null);
     } // end membership
