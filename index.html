@@ -50,14 +50,14 @@
        box-shadow:0 4px 20px rgba(27,62,44,.10);border:1px solid var(--line);
        transition:transform .2s ease,box-shadow .2s ease;}
   .opt:hover{transform:translateY(-7px);box-shadow:0 18px 48px rgba(27,62,44,.18);}
-  .opt-banner{height:148px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-  .opt-banner-a{background:linear-gradient(135deg,#3a9e72 0%,#27583f 100%);}
-  .opt-banner-b{background:linear-gradient(135deg,#2e7a5c 0%,#1b3e2c 100%);}
-  .opt-banner::before{content:"";position:absolute;right:-28px;top:-28px;width:120px;height:120px;border-radius:50%;
-                      background:rgba(255,255,255,.07);}
-  .opt-banner::after{content:"";position:absolute;left:-20px;bottom:-20px;width:80px;height:80px;border-radius:50%;
+  .opt-banner{height:158px;display:flex;align-items:flex-end;justify-content:center;position:relative;overflow:hidden;}
+  .opt-banner-a{background:linear-gradient(150deg,#46ad7f 0%,#2e7a5c 55%,#1f4c37 100%);}
+  .opt-banner-b{background:linear-gradient(150deg,#379a8e 0%,#2e7a5c 50%,#1b3e2c 100%);}
+  .opt-banner::before{content:"";position:absolute;right:-34px;top:-34px;width:140px;height:140px;border-radius:50%;
+                      background:rgba(255,255,255,.08);}
+  .opt-banner::after{content:"";position:absolute;left:-26px;top:18px;width:70px;height:70px;border-radius:50%;
                      background:rgba(255,255,255,.06);}
-  .opt-banner svg{width:68px;height:68px;position:relative;z-index:1;}
+  .opt-banner .scene{width:100%;height:100%;position:relative;z-index:1;display:block;}
   .opt-body{padding:24px 26px 28px;}
   .opt .tag{display:inline-block;font-size:10.5px;font-weight:800;color:var(--green);background:#e4f4ea;
             border:1px solid #b8dfc6;border-radius:20px;padding:3px 12px;letter-spacing:.5px;text-transform:uppercase;}
@@ -163,11 +163,41 @@
     <div class="choose">
       <div class="opt" data-go="membership">
         <div class="opt-banner opt-banner-a">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="27" r="13" stroke="white" stroke-width="3.5" fill="rgba(255,255,255,0.15)"/>
-            <path d="M16 66c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-            <rect x="52" y="44" width="16" height="20" rx="3" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="2.5"/>
-            <path d="M55 51h10M55 56h7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <!-- Membership: certificate + rosette seal + community of members -->
+          <svg class="scene" viewBox="0 0 280 158" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+            <defs>
+              <linearGradient id="paperA" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff" stop-opacity=".96"/>
+                <stop offset="1" stop-color="#e8f4ec" stop-opacity=".9"/>
+              </linearGradient>
+            </defs>
+            <!-- certificate, slightly tilted -->
+            <g transform="rotate(-5 120 86)">
+              <rect x="64" y="34" width="112" height="86" rx="6" fill="url(#paperA)"/>
+              <rect x="64" y="34" width="112" height="86" rx="6" stroke="#1f4c37" stroke-opacity=".15" stroke-width="1.5"/>
+              <rect x="72" y="42" width="96" height="70" rx="3" fill="none" stroke="#3a9e72" stroke-opacity=".35" stroke-width="1.5"/>
+              <circle cx="92" cy="58" r="7" fill="#cfeede"/>
+              <path d="M104 54h54M104 60h40" stroke="#2e7a5c" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M80 78h80M80 86h80M80 94h54" stroke="#9cc7b1" stroke-width="2.2" stroke-linecap="round"/>
+            </g>
+            <!-- rosette seal -->
+            <g transform="translate(150 96)">
+              <path d="M-7 8 L-12 26 L-3 21 L1 30 L6 12 Z" fill="#e7b04b"/>
+              <path d="M7 8 L12 26 L3 21 L-1 30 L-6 12 Z" fill="#d6973a"/>
+              <circle r="15" fill="#f4c863" stroke="#fff" stroke-width="2"/>
+              <circle r="9" fill="none" stroke="#fff" stroke-width="1.6" stroke-opacity=".8"/>
+              <path d="M-4 0 l3 3 l5 -6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </g>
+            <!-- members standing together (foreground) -->
+            <g fill="#ffffff">
+              <circle cx="48" cy="118" r="11"/><path d="M30 158c0-12 8-22 18-22s18 10 18 22z"/>
+            </g>
+            <g fill="#d6ecdf">
+              <circle cx="232" cy="116" r="12"/><path d="M212 158c0-13 9-24 20-24s20 11 20 24z"/>
+            </g>
+            <g fill="#bfe0cd">
+              <circle cx="206" cy="126" r="9"/><path d="M190 158c0-10 7-18 16-18s16 8 16 18z"/>
+            </g>
           </svg>
         </div>
         <div class="opt-body">
@@ -180,12 +210,44 @@
 
       <div class="opt" data-go="purchase">
         <div class="opt-banner opt-banner-b">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 38L40 12L68 38" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="22" y="38" width="36" height="30" rx="3" stroke="white" stroke-width="3.5" fill="rgba(255,255,255,0.1)"/>
-            <rect x="33" y="50" width="14" height="18" rx="2" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="2"/>
-            <rect x="26" y="44" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.3)"/>
-            <rect x="46" y="44" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+          <!-- Purchase of Site: surveyed plot with marked corners, a house, tree & sun -->
+          <svg class="scene" viewBox="0 0 280 158" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+            <!-- sun -->
+            <circle cx="232" cy="40" r="16" fill="#f6d878" fill-opacity=".9"/>
+            <g stroke="#f6d878" stroke-opacity=".7" stroke-width="2.4" stroke-linecap="round">
+              <path d="M232 14v-6M232 72v6M258 40h6M200 40h6M250 22l4-4M210 62l-4 4M250 58l4 4M210 18l-4-4"/>
+            </g>
+            <!-- ground -->
+            <path d="M0 132 Q140 116 280 132 L280 158 L0 158 Z" fill="#ffffff" fill-opacity=".10"/>
+            <!-- surveyed plot outline (dashed) with corner posts -->
+            <path d="M44 150 L96 104 L210 104 L168 150 Z" fill="#ffffff" fill-opacity=".08"
+                  stroke="#ffffff" stroke-opacity=".85" stroke-width="2.4" stroke-dasharray="7 5" stroke-linejoin="round"/>
+            <g fill="#ffd86b">
+              <circle cx="44" cy="150" r="4"/><circle cx="96" cy="104" r="4"/>
+              <circle cx="210" cy="104" r="4"/><circle cx="168" cy="150" r="4"/>
+            </g>
+            <!-- surveyor flag at a corner -->
+            <g>
+              <path d="M96 104 V72" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M96 74 L116 80 L96 88 Z" fill="#e76f51"/>
+            </g>
+            <!-- tree -->
+            <g>
+              <path d="M52 132 V112" stroke="#cdebd9" stroke-width="3.4" stroke-linecap="round"/>
+              <circle cx="52" cy="104" r="13" fill="#8fd3ad"/>
+              <circle cx="44" cy="110" r="9" fill="#7cc79e"/>
+              <circle cx="61" cy="110" r="9" fill="#a3ddbd"/>
+            </g>
+            <!-- house on the plot -->
+            <g transform="translate(118 70)">
+              <path d="M2 30 L36 4 L70 30 Z" fill="#e8f4ec"/>
+              <rect x="10" y="30" width="52" height="40" rx="2" fill="#ffffff"/>
+              <rect x="10" y="30" width="52" height="40" rx="2" stroke="#1b3e2c" stroke-opacity=".12" stroke-width="1.5"/>
+              <rect x="29" y="48" width="14" height="22" rx="1.5" fill="#2e7a5c"/>
+              <rect x="16" y="38" width="11" height="11" rx="1.5" fill="#bfe0cd"/>
+              <rect x="45" y="38" width="11" height="11" rx="1.5" fill="#bfe0cd"/>
+              <path d="M36 4 L36 -4" stroke="#e8f4ec" stroke-width="2.4" stroke-linecap="round"/>
+            </g>
           </svg>
         </div>
         <div class="opt-body">
@@ -349,8 +411,10 @@
 <script>if(!window.PDFLib){document.write('<script src="lib/pdf-lib.min.js"><\/script>');}</script>
 <!-- pdf.js renders the preview pages to images (reliable across browsers) -->
 <script src="lib/pdf.min.js"></script>
-<script src="template.js"></script>
-<script src="overlay.js"></script>
-<script src="app.js"></script>
+<!-- ?v= cache-buster: bump this when overlay.js / app.js / template.js change
+     so browsers + the GitHub Pages CDN fetch the new file instead of a stale copy. -->
+<script src="template.js?v=6"></script>
+<script src="overlay.js?v=6"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
