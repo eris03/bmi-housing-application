@@ -76,8 +76,13 @@
            494.4, 509.3, 524.1, 538.9],
     // Phone (Office) boxes — right half of the contact row
     phoneO: [390.1, 404.9, 419.6, 434.4, 449.1, 464.0, 478.9, 493.6, 508.4, 523.1, 537.9],
-    // Phone (Residence) / Mobile / E-mail row boxes — left half (same layout)
+    // Phone (Residence) row — left half (11 boxes; right half is Phone Office)
     contact: [198.1, 212.9, 227.6, 242.5, 257.4, 272.1, 286.9, 301.6, 316.4, 331.1, 345.9],
+    // Mobile row — 12 boxes spanning past the phone split
+    mobile: [198.1, 212.9, 227.7, 242.5, 257.3, 272.1, 286.9, 301.7, 316.3, 331.1, 345.9, 360.7],
+    // E-mail row — full-width 24 boxes (one char per box; emails are long)
+    email: [198.1, 212.9, 227.7, 242.5, 257.3, 272.1, 286.9, 301.7, 316.3, 331.1, 345.9, 360.7,
+            375.7, 390.3, 405.1, 419.9, 434.9, 449.7, 464.3, 479.1, 493.9, 508.7, 523.3, 538.1],
     // Nominee name / address boxes
     nomName: [227.4, 242.1, 256.9, 271.6, 286.4, 301.4, 316.1, 330.9, 345.6, 360.4,
               375.1, 389.9, 404.6, 419.4, 434.4, 449.1, 463.9, 478.6, 493.6, 508.4, 523.1, 537.9],
@@ -220,8 +225,8 @@
     drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, YS([403.4, 388.1, 373.1]), 10.5, ink);
     drawComb(p1, fontB, g('phoneR'), CELLS.contact, Y(353.1), 10.5, ink);
     drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, Y(353.1), 10.5, ink);
-    drawComb(p1, fontB, g('mobile'), CELLS.contact, Y(332.1), 10.5, ink);
-    drawComb(p1, fontB, g('email'), CELLS.contact, Y(312.4), 10.5, ink);
+    drawComb(p1, fontB, g('mobile'), CELLS.mobile, Y(332.1), 10.5, ink);
+    drawComb(p1, fontB, g('email'), CELLS.email, Y(312.4), 9.5, ink);
 
     // 6. Employment particulars (one block letter per box, 2 rows)
     drawCombFlow(p1, fontB, g('employment'), CELLS.main, YS([288.9, 273.9]), 10.5, ink);
