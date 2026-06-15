@@ -172,6 +172,17 @@
     // Same 4-digit serial for this person's Membership AND Site applications.
     var serial = serialFor(g('name'), g('dob'));
 
+    // CRITICAL: this template's page MediaBox does NOT start at y=0 — its
+    // lower-left origin is at y≈7.83. pdf-lib's drawText() places text in
+    // absolute user-space, but the page-1 comb-box coordinates below were
+    // pixel-measured from the rendered page (relative to the VISIBLE bottom),
+    // so they're short by exactly the MediaBox y-origin. Add it back, or every
+    // block letter lands ~8pt too low (falling out of the white boxes).
+    var mb = (p1.getMediaBox && p1.getMediaBox()) || { y: 0 };
+    var dy = mb.y || 0;            // ≈ 7.83 for this template
+    var Y = function (v) { return v + dy; };       // single y
+    var YS = function (a) { return a.map(Y); };     // array of y's
+
     // ============ APPLICATION FOR PURCHASE OF SITE (pages 1-2) ============
     if (mode !== 'membership') {
     // Combined helper: age + date of birth, one char per box (no labels —
@@ -182,33 +193,33 @@
     if (serial) draw(p1, fontB, serial, 480, 708, 13, red); // Sl. No. (red)
     draw(p1, fontB, g('siteMeasuring'), 290, 587, 10, ink);
     draw(p1, fontB, g('layoutName'), 92, 575, 10, ink);
-    drawComb(p1, fontB, g('name'), CELLS.main, 534.7, 11, ink);
-    drawComb(p1, fontB, g('father'), CELLS.main, 498.4, 11, ink);
-    drawComb(p1, fontB, ageDobCells, CELLS.main, 473.4, 11, ink);
+    drawComb(p1, fontB, g('name'), CELLS.main, Y(534.7), 11, ink);
+    drawComb(p1, fontB, g('father'), CELLS.main, Y(498.4), 11, ink);
+    drawComb(p1, fontB, ageDobCells, CELLS.main, Y(473.4), 11, ink);
 
     // 4. SC/ST  -> circle Y or N  (printed Y@199, N@213, glyph centre y~440)
-    if (g('scst') === 'Y') circle(p1, 199, 440, 7, 7, ink);
-    else if (g('scst') === 'N') circle(p1, 213, 440, 7, 7, ink);
+    if (g('scst') === 'Y') circle(p1, 199, Y(440), 7, 7, ink);
+    else if (g('scst') === 'N') circle(p1, 213, Y(440), 7, 7, ink);
 
     // 5. Address for correspondence (one block letter per box, 3 rows) + contacts
-    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, [403.4, 388.1, 373.1], 10.5, ink);
-    drawComb(p1, fontB, g('phoneR'), CELLS.contact, 353.1, 10.5, ink);
-    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, 353.1, 10.5, ink);
-    drawComb(p1, fontB, g('mobile'), CELLS.contact, 332.1, 10.5, ink);
-    drawComb(p1, fontB, g('email'), CELLS.contact, 312.4, 10.5, ink);
+    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, YS([403.4, 388.1, 373.1]), 10.5, ink);
+    drawComb(p1, fontB, g('phoneR'), CELLS.contact, Y(353.1), 10.5, ink);
+    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, Y(353.1), 10.5, ink);
+    drawComb(p1, fontB, g('mobile'), CELLS.contact, Y(332.1), 10.5, ink);
+    drawComb(p1, fontB, g('email'), CELLS.contact, Y(312.4), 10.5, ink);
 
     // 6. Employment particulars (one block letter per box, 2 rows)
-    drawCombFlow(p1, fontB, g('employment'), CELLS.main, [288.9, 273.9], 10.5, ink);
+    drawCombFlow(p1, fontB, g('employment'), CELLS.main, YS([288.9, 273.9]), 10.5, ink);
 
     // 7. Ordinary resident / Native of Karnataka -> circle Y or N (glyph y~238)
-    if (g('resident') === 'Y') circle(p1, 199.5, 238, 7, 7, ink);
-    else if (g('resident') === 'N') circle(p1, 213.5, 238, 7, 7, ink);
+    if (g('resident') === 'Y') circle(p1, 199.5, Y(238), 7, 7, ink);
+    else if (g('resident') === 'N') circle(p1, 213.5, Y(238), 7, 7, ink);
 
     // 8. Nominee particulars (one char per box)
-    drawComb(p1, fontB, g('nomName'), CELLS.nomName, 208.4, 10.5, ink);
-    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, 190.9, 10.5, ink);
-    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, 190.9, 10.5, ink);
-    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, 173.4, 10.5, ink);
+    drawComb(p1, fontB, g('nomName'), CELLS.nomName, Y(208.4), 10.5, ink);
+    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, Y(190.9), 10.5, ink);
+    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, Y(190.9), 10.5, ink);
+    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, Y(173.4), 10.5, ink);
 
     // 9. Family members (up to 5 rows): name @225, age @383, rel @443
     var famY = [108, 88, 68.5, 49, 29.5];
