@@ -182,33 +182,33 @@
     if (serial) draw(p1, fontB, serial, 480, 708, 13, red); // Sl. No. (red)
     draw(p1, fontB, g('siteMeasuring'), 290, 587, 10, ink);
     draw(p1, fontB, g('layoutName'), 92, 575, 10, ink);
-    drawComb(p1, fontB, g('name'), CELLS.main, 536.7, 11, ink);
-    drawComb(p1, fontB, g('father'), CELLS.main, 500.8, 11, ink);
-    drawComb(p1, fontB, ageDobCells, CELLS.main, 475.8, 11, ink);
+    drawComb(p1, fontB, g('name'), CELLS.main, 534.7, 11, ink);
+    drawComb(p1, fontB, g('father'), CELLS.main, 498.4, 11, ink);
+    drawComb(p1, fontB, ageDobCells, CELLS.main, 473.4, 11, ink);
 
     // 4. SC/ST  -> circle Y or N  (printed Y@199, N@213, glyph centre y~440)
     if (g('scst') === 'Y') circle(p1, 199, 440, 7, 7, ink);
     else if (g('scst') === 'N') circle(p1, 213, 440, 7, 7, ink);
 
     // 5. Address for correspondence (one block letter per box, 3 rows) + contacts
-    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, [405.8, 390.5, 375.5], 10.5, ink);
-    drawComb(p1, fontB, g('phoneR'), CELLS.contact, 355.5, 10.5, ink);
-    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, 355.5, 10.5, ink);
-    drawComb(p1, fontB, g('mobile'), CELLS.contact, 334.5, 10.5, ink);
-    drawComb(p1, fontB, g('email'), CELLS.contact, 314.8, 10.5, ink);
+    drawCombFlow(p1, fontB, g('addressCorr'), CELLS.main, [403.4, 388.1, 373.1], 10.5, ink);
+    drawComb(p1, fontB, g('phoneR'), CELLS.contact, 353.1, 10.5, ink);
+    drawComb(p1, fontB, g('phoneO'), CELLS.phoneO, 353.1, 10.5, ink);
+    drawComb(p1, fontB, g('mobile'), CELLS.contact, 332.1, 10.5, ink);
+    drawComb(p1, fontB, g('email'), CELLS.contact, 312.4, 10.5, ink);
 
     // 6. Employment particulars (one block letter per box, 2 rows)
-    drawCombFlow(p1, fontB, g('employment'), CELLS.main, [291.3, 276.3], 10.5, ink);
+    drawCombFlow(p1, fontB, g('employment'), CELLS.main, [288.9, 273.9], 10.5, ink);
 
     // 7. Ordinary resident / Native of Karnataka -> circle Y or N (glyph y~238)
     if (g('resident') === 'Y') circle(p1, 199.5, 238, 7, 7, ink);
     else if (g('resident') === 'N') circle(p1, 213.5, 238, 7, 7, ink);
 
     // 8. Nominee particulars (one char per box)
-    drawComb(p1, fontB, g('nomName'), CELLS.nomName, 210.8, 10.5, ink);
-    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, 193.2, 10.5, ink);
-    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, 193.2, 10.5, ink);
-    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, 175.7, 10.5, ink);
+    drawComb(p1, fontB, g('nomName'), CELLS.nomName, 208.4, 10.5, ink);
+    drawComb(p1, fontB, g('nomAge'), CELLS.nomAge, 190.9, 10.5, ink);
+    drawComb(p1, fontB, g('nomRel'), CELLS.nomRel, 190.9, 10.5, ink);
+    drawComb(p1, fontB, g('nomAddr'), CELLS.nomAddr, 173.4, 10.5, ink);
 
     // 9. Family members (up to 5 rows): name @225, age @383, rel @443
     var famY = [108, 88, 68.5, 49, 29.5];

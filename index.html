@@ -6,42 +6,74 @@
 <title>BMI Housing Society – Application Forms</title>
 <style>
   :root{
-    --green:#3a7d5d; --green-dark:#27583f; --green-deep:#1b3e2c; --accent:#4f9e76;
-    --bg:#eaf1ea; --card:#ffffff; --line:#d7e4da; --ink:#243029; --muted:#67786d;
-    --ok:#2f7d4f; --okbg:#e7f3ec; --ring:rgba(79,158,118,.22);
+    --green:#3a7d5d;--green-dark:#27583f;--green-deep:#1b3e2c;--accent:#4f9e76;--accent-light:#7dc49a;
+    --bg:#edf3ee;--card:#ffffff;--line:#cfe0d4;--ink:#1e2d23;--muted:#5f7468;
+    --ok:#2f7d4f;--okbg:#e7f3ec;--ring:rgba(79,158,118,.22);
   }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
-       background:radial-gradient(1200px 500px at 80% -120px,#dcebe0 0%,rgba(220,235,224,0) 60%),var(--bg);min-height:100vh;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);min-height:100vh;
+       background:var(--bg);background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px;}
 
-  header{background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 55%,var(--green-deep) 100%);
-         color:#fff;padding:20px 22px;box-shadow:0 2px 14px rgba(27,62,44,.18);position:relative;overflow:hidden;}
-  header::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
-                background:rgba(255,255,255,.06);}
-  .brand{display:flex;align-items:center;gap:14px;max-width:980px;margin:0 auto;position:relative;z-index:1;}
-  .logo-img{flex:none;width:52px;height:52px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,.92);padding:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);}
-  .brand h1{margin:0;font-size:18.5px;letter-spacing:.2px;line-height:1.25;}
-  .brand p{margin:3px 0 0;font-size:12px;opacity:.9;}
-  .wrap{max-width:980px;margin:26px auto;padding:0 16px 96px;}
+  /* ── HEADER ─────────────────────────────────────────────────────────── */
+  header{background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 60%,var(--green-deep) 100%);
+         color:#fff;padding:18px 24px 0;position:relative;overflow:hidden;}
+  header::before{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;
+                 background:rgba(255,255,255,.05);}
+  header::after{content:"";position:absolute;left:-30px;bottom:-30px;width:160px;height:160px;border-radius:50%;
+                background:rgba(255,255,255,.04);}
+  .header-inner{max-width:960px;margin:0 auto;position:relative;z-index:1;padding-bottom:18px;}
+  .brand{display:flex;align-items:center;gap:16px;}
+  .logo-img{flex:none;width:56px;height:56px;border-radius:14px;object-fit:contain;
+            background:rgba(255,255,255,.95);padding:5px;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+  .brand-text h1{font-size:19px;font-weight:800;letter-spacing:.1px;line-height:1.2;}
+  .brand-text p{font-size:12.5px;opacity:.82;margin-top:2px;}
+  .header-wave{display:block;width:100%;height:36px;margin-top:0;}
 
-  .choose{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:8px;}
-  .opt{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 22px 24px;cursor:pointer;
-       box-shadow:0 2px 8px rgba(27,62,44,.06);transition:transform .16s,box-shadow .16s,border-color .16s;text-align:left;overflow:hidden;}
-  .opt::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--accent),var(--green));}
-  .opt:hover{border-color:var(--accent);box-shadow:0 12px 26px rgba(27,62,44,.16);transform:translateY(-3px);}
-  .opt-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-  .opt-ic{flex:none;width:44px;height:44px;border-radius:12px;background:#eaf5ee;color:var(--green);font-size:22px;display:flex;align-items:center;justify-content:center;}
-  .opt .tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--green);border-radius:20px;padding:3px 11px;}
-  .opt h2{margin:0 0 6px;font-size:17.5px;color:var(--green-dark);}
-  .opt p{margin:0;font-size:13px;color:var(--muted);line-height:1.5;}
-  .opt .go{margin-top:18px;font-weight:700;color:var(--green);font-size:13.5px;}
-  @media(max-width:680px){.choose{grid-template-columns:1fr}}
+  /* ── LANDING ─────────────────────────────────────────────────────────── */
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px 100px;}
+  .hero{text-align:center;padding:38px 16px 22px;}
+  .hero-eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+                color:var(--green);background:#d8eed8;border-radius:20px;padding:4px 14px;margin-bottom:14px;}
+  .hero h2{font-size:30px;font-weight:800;color:var(--green-deep);line-height:1.2;margin-bottom:10px;letter-spacing:-.4px;}
+  .hero-sub{font-size:14.5px;color:var(--muted);line-height:1.65;max-width:580px;margin:0 auto;}
 
-  .formhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
-  .formhead h2{margin:0;font-size:19px;color:var(--green-dark);}
+  /* feature badges */
+  .feats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:22px 0 32px;}
+  .feat{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--green-dark);
+        background:#fff;border:1px solid var(--line);border-radius:30px;padding:6px 14px;
+        box-shadow:0 1px 4px rgba(27,62,44,.07);}
+  .feat svg{flex:none;width:15px;height:15px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* cards */
+  .choose{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .opt{background:var(--card);border-radius:22px;overflow:hidden;cursor:pointer;text-align:left;
+       box-shadow:0 4px 20px rgba(27,62,44,.10);border:1px solid var(--line);
+       transition:transform .2s ease,box-shadow .2s ease;}
+  .opt:hover{transform:translateY(-7px);box-shadow:0 18px 48px rgba(27,62,44,.18);}
+  .opt-banner{height:148px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .opt-banner-a{background:linear-gradient(135deg,#3a9e72 0%,#27583f 100%);}
+  .opt-banner-b{background:linear-gradient(135deg,#2e7a5c 0%,#1b3e2c 100%);}
+  .opt-banner::before{content:"";position:absolute;right:-28px;top:-28px;width:120px;height:120px;border-radius:50%;
+                      background:rgba(255,255,255,.07);}
+  .opt-banner::after{content:"";position:absolute;left:-20px;bottom:-20px;width:80px;height:80px;border-radius:50%;
+                     background:rgba(255,255,255,.06);}
+  .opt-banner svg{width:68px;height:68px;position:relative;z-index:1;}
+  .opt-body{padding:24px 26px 28px;}
+  .opt .tag{display:inline-block;font-size:10.5px;font-weight:800;color:var(--green);background:#e4f4ea;
+            border:1px solid #b8dfc6;border-radius:20px;padding:3px 12px;letter-spacing:.5px;text-transform:uppercase;}
+  .opt h2{font-size:19px;font-weight:800;color:var(--green-deep);margin:10px 0 8px;line-height:1.2;}
+  .opt p{font-size:13px;color:var(--muted);line-height:1.55;}
+  .opt-btn{margin-top:20px;width:100%;padding:13px 16px;background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
+           color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
+           box-shadow:0 3px 12px rgba(39,88,63,.28);transition:opacity .15s,transform .15s;}
+  .opt-btn:hover{opacity:.9;transform:translateY(-1px);}
+  @media(max-width:680px){.choose{grid-template-columns:1fr}.hero h2{font-size:23px;}}
+
+  /* ── FORM VIEW ──────────────────────────────────────────────────────── */
+  .formhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 14px;}
+  .formhead h2{font-size:19px;color:var(--green-dark);font-weight:700;}
   .back{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 14px;font-size:13px;color:var(--green);cursor:pointer;font-weight:600;}
   .back:hover{background:#eef6f0;border-color:var(--accent);}
-
   .note{background:#eaf5ee;border:1px solid #cfe6d6;border-radius:10px;padding:12px 15px;font-size:13px;color:#2c5d42;margin-bottom:20px;line-height:1.5;}
   fieldset{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:0 0 20px;padding:8px 20px 20px;box-shadow:0 2px 6px rgba(27,62,44,.05);}
   legend{font-weight:700;color:var(--green-dark);padding:2px 12px;font-size:14px;background:#eaf5ee;border:1px solid #d7e9dd;border-radius:20px;}
@@ -64,15 +96,12 @@
   table.fam td{padding:3px 4px;}
   table.fam td.sl{width:34px;text-align:center;color:var(--muted);font-weight:600;}
   .hint{font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:400;}
-
   .sigwrap{position:relative;margin-top:6px;display:inline-block;}
   #sigPad{border:1px dashed var(--accent);border-radius:10px;background:#fbfdfb;width:100%;max-width:480px;height:150px;touch-action:none;cursor:crosshair;display:block;}
   .sigclear{position:absolute;top:8px;right:8px;font-size:12px;font-weight:600;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;}
   .sigclear:hover{background:#eef6f0;}
-
   #pdfPreview{min-height:300px;background:#dfe7e1;border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:inset 0 1px 4px rgba(27,62,44,.08);}
   #pdfPreview canvas{box-shadow:0 3px 12px rgba(27,62,44,.18);}
-
   .bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.2) blur(4px);border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;box-shadow:0 -3px 14px rgba(27,62,44,.08);}
   button.action{font-family:inherit;font-size:14px;font-weight:700;border-radius:10px;padding:12px 24px;border:1px solid transparent;cursor:pointer;transition:background .12s,transform .12s;}
   button.action:hover{transform:translateY(-1px);}
@@ -80,38 +109,91 @@
   .btn-primary:hover{background:linear-gradient(135deg,var(--green-dark),var(--green-deep));}
   .btn-ghost{background:#fff;color:var(--green);border-color:var(--line);}
   .btn-ghost:hover{background:#eef6f0;border-color:var(--accent);}
-  .footer{text-align:center;font-size:11.5px;color:var(--muted);padding:8px 16px 26px;}
+  .footer{text-align:center;font-size:11.5px;color:var(--muted);padding:16px 16px 28px;border-top:1px solid var(--line);margin-top:12px;}
   .req::after{content:" *";color:#c0392b;}
   .hidden{display:none !important;}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">
-    <img src="logo.png" alt="BMI Logo" class="logo-img">
-    <div>
-      <h1>Bengaluru Metro City Infrastructure Housing Co-operative Society Ltd.</h1>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="logo.png" alt="BMI Logo" class="logo-img">
+      <div class="brand-text">
+        <h1>Bengaluru Metro City Infrastructure</h1>
+        <p>Housing Co-operative Society Ltd. &nbsp;&mdash;&nbsp; Official Application Portal</p>
+      </div>
     </div>
   </div>
+  <!-- wave divider -->
+  <svg class="header-wave" viewBox="0 0 1440 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,36 C360,0 1080,0 1440,36 L1440,36 L0,36 Z" fill="#edf3ee"/>
+  </svg>
 </header>
 
 <div class="wrap">
 
   <!-- ============ LANDING / CHOOSER ============ -->
   <section id="landing">
-    <div class="note">Choose which application you want to fill. Your details are placed onto the official form and downloaded in the exact same format. Everything runs on your computer &mdash; nothing is uploaded.</div>
+    <div class="hero">
+      <div class="hero-eyebrow">Official Society Forms</div>
+      <h2>Fill Your Application Digitally</h2>
+      <p class="hero-sub">Type your details once — we place them onto the official printed form and download the completed PDF directly to your device. Nothing leaves your computer.</p>
+    </div>
+
+    <div class="feats">
+      <div class="feat">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        100% Offline
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Official Format
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Sign Digitally
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Print Ready PDF
+      </div>
+    </div>
+
     <div class="choose">
       <div class="opt" data-go="membership">
-        <div class="opt-top"><span class="tag">Form A</span></div>
-        <h2>Application for Membership</h2>
-        <p>Apply for society membership &mdash; applicant &amp; nominee details, addresses and office particulars.</p>
-        <div class="go">Fill this application &rarr;</div>
+        <div class="opt-banner opt-banner-a">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="27" r="13" stroke="white" stroke-width="3.5" fill="rgba(255,255,255,0.15)"/>
+            <path d="M16 66c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+            <rect x="52" y="44" width="16" height="20" rx="3" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="2.5"/>
+            <path d="M55 51h10M55 56h7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="opt-body">
+          <span class="tag">Form A</span>
+          <h2>Application for Membership</h2>
+          <p>Apply for society membership &mdash; applicant &amp; nominee details, permanent address and office particulars.</p>
+          <button class="opt-btn">Fill this application &rarr;</button>
+        </div>
       </div>
+
       <div class="opt" data-go="purchase">
-        <div class="opt-top"><span class="tag">Form B</span></div>
-        <h2>Application for Purchase of Site</h2>
-        <p>Apply to purchase a site &mdash; applicant &amp; nominee details, family members, site &amp; payment particulars.</p>
-        <div class="go">Fill this application &rarr;</div>
+        <div class="opt-banner opt-banner-b">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 38L40 12L68 38" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="22" y="38" width="36" height="30" rx="3" stroke="white" stroke-width="3.5" fill="rgba(255,255,255,0.1)"/>
+            <rect x="33" y="50" width="14" height="18" rx="2" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="2"/>
+            <rect x="26" y="44" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+            <rect x="46" y="44" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+          </svg>
+        </div>
+        <div class="opt-body">
+          <span class="tag">Form B</span>
+          <h2>Application for Purchase of Site</h2>
+          <p>Apply to purchase a plot &mdash; applicant &amp; nominee details, family members, site &amp; payment particulars.</p>
+          <button class="opt-btn">Fill this application &rarr;</button>
+        </div>
       </div>
     </div>
   </section>
