@@ -269,10 +269,6 @@
       a.href = url; a.download = safe + '_' + dateStr + '.pdf';
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
-      // Log the submission to the office records (who filled which application).
-      if (window.BMIAuth && window.BMIAuth.saveApplication) {
-        window.BMIAuth.saveApplication({ appType: currentApp, data: data, signatureDataUrl: sigDataUrl });
-      }
     } catch (e) {
       console.error(e);
       alert('Could not create the PDF:\n' + (e && e.message ? e.message : e));
@@ -315,9 +311,6 @@
       alert('The form engine did not load correctly. Please check your internet connection and reload the page.');
     }
   }
-
-  // Let the auth layer reset the employee view to the landing screen on login.
-  window.BMIApp = { toLanding: backToLanding };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
