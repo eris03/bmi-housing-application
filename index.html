@@ -165,40 +165,50 @@
     <div class="choose">
       <div class="opt" data-go="membership">
         <div class="opt-banner opt-banner-a">
-          <!-- Membership: certificate + rosette seal + community of members -->
+          <!-- Membership: clean membership card with photo, detail lines and a verified seal, over a subtle skyline -->
           <svg class="scene" viewBox="0 0 280 158" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
             <defs>
-              <linearGradient id="paperA" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#ffffff" stop-opacity=".96"/>
-                <stop offset="1" stop-color="#e8f4ec" stop-opacity=".9"/>
+              <linearGradient id="cardA" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#eaf6ee"/>
+              </linearGradient>
+              <linearGradient id="ribA" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f6d06b"/>
+                <stop offset="1" stop-color="#e0a93c"/>
               </linearGradient>
             </defs>
-            <!-- certificate, slightly tilted -->
-            <g transform="rotate(-5 120 86)">
-              <rect x="64" y="34" width="112" height="86" rx="6" fill="url(#paperA)"/>
-              <rect x="64" y="34" width="112" height="86" rx="6" stroke="#1f4c37" stroke-opacity=".15" stroke-width="1.5"/>
-              <rect x="72" y="42" width="96" height="70" rx="3" fill="none" stroke="#3a9e72" stroke-opacity=".35" stroke-width="1.5"/>
-              <circle cx="92" cy="58" r="7" fill="#cfeede"/>
-              <path d="M104 54h54M104 60h40" stroke="#2e7a5c" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round"/>
-              <path d="M80 78h80M80 86h80M80 94h54" stroke="#9cc7b1" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- subtle city skyline -->
+            <g fill="#ffffff" fill-opacity=".07">
+              <rect x="2" y="92" width="26" height="66" rx="2"/>
+              <rect x="32" y="74" width="20" height="84" rx="2"/>
+              <rect x="56" y="104" width="14" height="54" rx="2"/>
+              <rect x="232" y="82" width="22" height="76" rx="2"/>
+              <rect x="258" y="100" width="20" height="58" rx="2"/>
             </g>
-            <!-- rosette seal -->
-            <g transform="translate(150 96)">
-              <path d="M-7 8 L-12 26 L-3 21 L1 30 L6 12 Z" fill="#e7b04b"/>
-              <path d="M7 8 L12 26 L3 21 L-1 30 L-6 12 Z" fill="#d6973a"/>
-              <circle r="15" fill="#f4c863" stroke="#fff" stroke-width="2"/>
-              <circle r="9" fill="none" stroke="#fff" stroke-width="1.6" stroke-opacity=".8"/>
-              <path d="M-4 0 l3 3 l5 -6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <!-- membership card -->
+            <g transform="rotate(-4 140 86)">
+              <rect x="62" y="40" width="156" height="94" rx="11" fill="url(#cardA)"/>
+              <rect x="62" y="40" width="156" height="94" rx="11" stroke="#1f4c37" stroke-opacity=".12" stroke-width="1.5"/>
+              <!-- header band -->
+              <path d="M62 51 a11 11 0 0 1 11 -11 h134 a11 11 0 0 1 11 11 v5 H62 Z" fill="#2e7a5c"/>
+              <rect x="78" y="45" width="56" height="5" rx="2.5" fill="#ffffff" fill-opacity=".85"/>
+              <!-- photo -->
+              <rect x="76" y="68" width="34" height="40" rx="4" fill="#d9efe1"/>
+              <circle cx="93" cy="82" r="7" fill="#9cc7b1"/>
+              <path d="M80 106 a13 13 0 0 1 26 0 Z" fill="#9cc7b1"/>
+              <!-- detail lines -->
+              <rect x="120" y="70" width="82" height="6" rx="3" fill="#bcdfcb"/>
+              <rect x="120" y="84" width="60" height="5" rx="2.5" fill="#d6ebdd"/>
+              <rect x="120" y="95" width="72" height="5" rx="2.5" fill="#d6ebdd"/>
+              <rect x="76" y="118" width="126" height="5" rx="2.5" fill="#e3f0e9"/>
             </g>
-            <!-- members standing together (foreground) -->
-            <g fill="#ffffff">
-              <circle cx="48" cy="118" r="11"/><path d="M30 158c0-12 8-22 18-22s18 10 18 22z"/>
-            </g>
-            <g fill="#d6ecdf">
-              <circle cx="232" cy="116" r="12"/><path d="M212 158c0-13 9-24 20-24s20 11 20 24z"/>
-            </g>
-            <g fill="#bfe0cd">
-              <circle cx="206" cy="126" r="9"/><path d="M190 158c0-10 7-18 16-18s16 8 16 18z"/>
+            <!-- verified ribbon seal -->
+            <g transform="translate(204 106)">
+              <path d="M-8 6 l-6 22 l9 -6 l4 9 l6 -22 Z" fill="#cf8f33"/>
+              <path d="M8 6 l6 22 l-9 -6 l-4 9 l-6 -22 Z" fill="#e0a93c"/>
+              <circle r="17" fill="url(#ribA)" stroke="#fff" stroke-width="2.5"/>
+              <circle r="11" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.4"/>
+              <path d="M-5 0 l3.5 4 l6.5 -8" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             </g>
           </svg>
         </div>
@@ -212,43 +222,42 @@
 
       <div class="opt" data-go="purchase">
         <div class="opt-banner opt-banner-b">
-          <!-- Purchase of Site: surveyed plot with marked corners, a house, tree & sun -->
+          <!-- Purchase of Site: clean surveyed plot with corner stakes, a modern house and a location pin -->
           <svg class="scene" viewBox="0 0 280 158" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+            <defs>
+              <linearGradient id="roofB" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#d9efe1"/>
+              </linearGradient>
+            </defs>
             <!-- sun -->
-            <circle cx="232" cy="40" r="16" fill="#f6d878" fill-opacity=".9"/>
-            <g stroke="#f6d878" stroke-opacity=".7" stroke-width="2.4" stroke-linecap="round">
-              <path d="M232 14v-6M232 72v6M258 40h6M200 40h6M250 22l4-4M210 62l-4 4M250 58l4 4M210 18l-4-4"/>
-            </g>
-            <!-- ground -->
-            <path d="M0 132 Q140 116 280 132 L280 158 L0 158 Z" fill="#ffffff" fill-opacity=".10"/>
-            <!-- surveyed plot outline (dashed) with corner posts -->
-            <path d="M44 150 L96 104 L210 104 L168 150 Z" fill="#ffffff" fill-opacity=".08"
+            <circle cx="240" cy="34" r="13" fill="#f6d878" fill-opacity=".85"/>
+            <!-- horizon glow -->
+            <path d="M0 122 Q140 110 280 122 L280 158 L0 158 Z" fill="#ffffff" fill-opacity=".08"/>
+            <!-- surveyed plot (dashed) -->
+            <path d="M40 144 L118 102 L240 118 L166 150 Z" fill="#ffffff" fill-opacity=".10"
                   stroke="#ffffff" stroke-opacity=".85" stroke-width="2.4" stroke-dasharray="7 5" stroke-linejoin="round"/>
+            <!-- inner survey lines -->
+            <path d="M79 123 L199 135 M118 102 L166 150" stroke="#ffffff" stroke-opacity=".22" stroke-width="1.4"/>
+            <!-- corner stakes -->
             <g fill="#ffd86b">
-              <circle cx="44" cy="150" r="4"/><circle cx="96" cy="104" r="4"/>
-              <circle cx="210" cy="104" r="4"/><circle cx="168" cy="150" r="4"/>
+              <circle cx="40" cy="144" r="3.6"/><circle cx="118" cy="102" r="3.6"/>
+              <circle cx="240" cy="118" r="3.6"/><circle cx="166" cy="150" r="3.6"/>
             </g>
-            <!-- surveyor flag at a corner -->
-            <g>
-              <path d="M96 104 V72" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
-              <path d="M96 74 L116 80 L96 88 Z" fill="#e76f51"/>
+            <!-- modern house on the plot -->
+            <g transform="translate(120 62)">
+              <path d="M0 32 L34 6 L68 32 Z" fill="url(#roofB)"/>
+              <rect x="8" y="32" width="52" height="40" rx="3" fill="#ffffff"/>
+              <rect x="8" y="32" width="52" height="40" rx="3" stroke="#1b3e2c" stroke-opacity=".12" stroke-width="1.4"/>
+              <rect x="28" y="50" width="14" height="22" rx="1.5" fill="#2e7a5c"/>
+              <rect x="15" y="40" width="10" height="10" rx="1.5" fill="#bfe0cd"/>
+              <rect x="44" y="40" width="10" height="10" rx="1.5" fill="#bfe0cd"/>
             </g>
-            <!-- tree -->
-            <g>
-              <path d="M52 132 V112" stroke="#cdebd9" stroke-width="3.4" stroke-linecap="round"/>
-              <circle cx="52" cy="104" r="13" fill="#8fd3ad"/>
-              <circle cx="44" cy="110" r="9" fill="#7cc79e"/>
-              <circle cx="61" cy="110" r="9" fill="#a3ddbd"/>
-            </g>
-            <!-- house on the plot -->
-            <g transform="translate(118 70)">
-              <path d="M2 30 L36 4 L70 30 Z" fill="#e8f4ec"/>
-              <rect x="10" y="30" width="52" height="40" rx="2" fill="#ffffff"/>
-              <rect x="10" y="30" width="52" height="40" rx="2" stroke="#1b3e2c" stroke-opacity=".12" stroke-width="1.5"/>
-              <rect x="29" y="48" width="14" height="22" rx="1.5" fill="#2e7a5c"/>
-              <rect x="16" y="38" width="11" height="11" rx="1.5" fill="#bfe0cd"/>
-              <rect x="45" y="38" width="11" height="11" rx="1.5" fill="#bfe0cd"/>
-              <path d="M36 4 L36 -4" stroke="#e8f4ec" stroke-width="2.4" stroke-linecap="round"/>
+            <!-- location pin marking the site -->
+            <g transform="translate(66 80)">
+              <ellipse cx="0" cy="42" rx="9" ry="3" fill="#1b3e2c" fill-opacity=".18"/>
+              <path d="M0 0 C-9 0 -16 7 -16 16 C-16 27 0 40 0 40 C0 40 16 27 16 16 C16 7 9 0 0 0 Z" fill="#e76f51"/>
+              <circle cy="15" r="6" fill="#ffffff"/>
             </g>
           </svg>
         </div>
@@ -433,8 +442,8 @@
 <script src="lib/pdf.min.js"></script>
 <!-- ?v= cache-buster: bump this when any app script changes so browsers + the
      GitHub Pages CDN fetch the new file instead of a stale copy. -->
-<script src="template.js?v=16"></script>
-<script src="overlay.js?v=16"></script>
-<script src="app.js?v=16"></script>
+<script src="template.js?v=17"></script>
+<script src="overlay.js?v=17"></script>
+<script src="app.js?v=17"></script>
 </body>
 </html>
