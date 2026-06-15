@@ -271,8 +271,22 @@
     <fieldset data-apps="purchase">
       <legend>Site Details</legend>
       <div class="grid">
-        <div><label>Site measuring (size)</label><input type="text" id="siteMeasuring" placeholder="e.g. 30 x 40 ft"></div>
-        <div><label>Layout name</label><input type="text" id="layoutName" placeholder="e.g. BMI Green Valley"></div>
+        <div><label>Site measuring (size)</label>
+          <select id="siteMeasuring">
+            <option value="">Select site size…</option>
+            <option value="30 x 40 (1200 sq.ft.)">30 x 40 (1200 sq.ft.)</option>
+            <option value="30 x 50 (1500 sq.ft.)">30 x 50 (1500 sq.ft.)</option>
+            <option value="40 x 60 (2400 sq.ft.)">40 x 60 (2400 sq.ft.)</option>
+            <option value="50 x 80 (4000 sq.ft.)">50 x 80 (4000 sq.ft.)</option>
+          </select>
+        </div>
+        <div><label>Layout name</label>
+          <select id="layoutName">
+            <option value="">Select layout…</option>
+            <option value="Garden City">Garden City</option>
+            <option value="North Metro City">North Metro City</option>
+          </select>
+        </div>
       </div>
     </fieldset>
 
@@ -413,8 +427,8 @@
 <script src="lib/pdf.min.js"></script>
 <!-- ?v= cache-buster: bump this when overlay.js / app.js / template.js change
      so browsers + the GitHub Pages CDN fetch the new file instead of a stale copy. -->
-<script src="template.js?v=7"></script>
-<script src="overlay.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="template.js?v=8"></script>
+<script src="overlay.js?v=8"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

@@ -189,10 +189,24 @@
     // the row is already titled "Age, Date of Birth").
     var ageDobCells = [g('age'), g('dob') && fmtDate(g('dob'))].filter(Boolean).join('  ');
 
+    // Draw a value onto a pre-printed dotted blank: first paint a strip of the
+    // form's background green over the dots (so they don't show through the
+    // typed value — "reduce the dots"), then draw the value resting on the line.
+    var formGreen = rgb(162 / 255, 232 / 255, 167 / 255);
+    function drawOnDottedLine(page, text, x, baselineY, size) {
+      text = sanitize(text).trim();
+      if (!text) return;
+      var w = fontB.widthOfTextAtSize(text, size);
+      page.drawRectangle({ x: x - 3, y: baselineY - 3.5, width: w + 7, height: size + 6, color: formGreen });
+      page.drawText(text, { x: x, y: baselineY, size: size, font: fontB, color: ink });
+    }
+
     // ===================== PAGE 1 : Purchase of Site =====================
     if (serial) draw(p1, fontB, serial, 480, 708, 13, red); // Sl. No. (red)
-    draw(p1, fontB, g('siteMeasuring'), 290, 587, 10, ink);
-    draw(p1, fontB, g('layoutName'), 92, 575, 10, ink);
+    // Site size + layout name sit on the two dotted blanks, both at the same
+    // baseline level as the printed line text, with the dots masked beneath.
+    drawOnDottedLine(p1, g('siteMeasuring'), 300, 585.5, 10);
+    drawOnDottedLine(p1, g('layoutName'), 74, 573, 10);
     drawComb(p1, fontB, g('name'), CELLS.main, Y(534.7), 11, ink);
     drawComb(p1, fontB, g('father'), CELLS.main, Y(498.4), 11, ink);
     drawComb(p1, fontB, ageDobCells, CELLS.main, Y(473.4), 11, ink);
