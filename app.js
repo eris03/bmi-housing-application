@@ -17,6 +17,7 @@
 
   var FAMILY_ROWS = 5;
   var sigBytes = null;       // PNG bytes of the drawn signature, or null
+  var sigDataUrl = null;     // same signature as a data URL (for saving to the log)
   var sigClearFn = null;     // clears the signature pad
   var currentApp = null;
   var previewUrl = null;
@@ -149,11 +150,11 @@
       ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
       last = p; dirty = true;
     }
-    function end() { if (!drawing) return; drawing = false; if (dirty) sigBytes = dataUrlToBytes(canvas.toDataURL('image/png')); }
+    function end() { if (!drawing) return; drawing = false; if (dirty) { sigDataUrl = canvas.toDataURL('image/png'); sigBytes = dataUrlToBytes(sigDataUrl); } }
     canvas.addEventListener('pointerdown', start);
     canvas.addEventListener('pointermove', move);
     window.addEventListener('pointerup', end);
-    sigClearFn = function () { ctx.clearRect(0, 0, canvas.width, canvas.height); sigBytes = null; dirty = false; };
+    sigClearFn = function () { ctx.clearRect(0, 0, canvas.width, canvas.height); sigBytes = null; sigDataUrl = null; dirty = false; };
     document.getElementById('sigClear').addEventListener('click', sigClearFn);
   }
 
@@ -268,6 +269,10 @@
       a.href = url; a.download = safe + '_' + dateStr + '.pdf';
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      // Log the submission to the office records (who filled which application).
+      if (window.BMIAuth && window.BMIAuth.saveApplication) {
+        window.BMIAuth.saveApplication({ appType: currentApp, data: data, signatureDataUrl: sigDataUrl });
+      }
     } catch (e) {
       console.error(e);
       alert('Could not create the PDF:\n' + (e && e.message ? e.message : e));
@@ -310,6 +315,9 @@
       alert('The form engine did not load correctly. Please check your internet connection and reload the page.');
     }
   }
+
+  // Let the auth layer reset the employee view to the landing screen on login.
+  window.BMIApp = { toLanding: backToLanding };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
