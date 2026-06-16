@@ -60,7 +60,36 @@
     for (var i = 0; i < FAMILY_ROWS; i++) {
       d.family.push({ name: val('fam' + i + 'name'), age: val('fam' + i + 'age'), relationship: val('fam' + i + 'rel') });
     }
+    // Pass sentinel values so overlay.js prints the phrase, not the copied text
+    var permCb = document.getElementById('permSame');
+    if (permCb && permCb.checked) d.permAddr = 'SAME_AS_CORRESPONDENCE';
+    var nomCb = document.getElementById('nomSame');
+    if (nomCb && nomCb.checked) d.nomAddr = 'SAME_AS_CORRESPONDENCE';
     return d;
+  }
+
+  // ---- office serial number ---------------------------------------------
+  // Sequential number starting at 4001: the first applicant gets 4001, each new
+  // applicant the next number. It's keyed to name+date-of-birth and remembered
+  // in localStorage, so the SAME person's Membership and Purchase forms always
+  // share one serial, and re-previewing never burns a new number.
+  function serialKeyFor(d) {
+    return (d.name || '').trim().toUpperCase().replace(/\s+/g, ' ') + '|' + (d.dob || '');
+  }
+  function allocateSerial(d) {
+    if (!((d.name || '').trim() || (d.dob || '').trim())) return ''; // nothing entered yet
+    var key = serialKeyFor(d), map = {}, next = 4001;
+    try { map = JSON.parse(localStorage.getItem('bmi_serial_map') || '{}'); } catch (e) {}
+    if (map[key]) return map[key];                       // same person -> same serial
+    try { next = parseInt(localStorage.getItem('bmi_serial_next') || '4001', 10) || 4001; } catch (e) {}
+    if (next < 4001) next = 4001;
+    var s = String(next);
+    map[key] = s;
+    try {
+      localStorage.setItem('bmi_serial_map', JSON.stringify(map));
+      localStorage.setItem('bmi_serial_next', String(next + 1));
+    } catch (e) {}
+    return s;
   }
 
   // Draft is kept in sessionStorage: it SURVIVES a page reload, but is cleared
@@ -107,11 +136,16 @@
     var pa = document.getElementById('permAddr');
     var ac = document.getElementById('addressCorr');
     function sync() {
-      if (cb.checked) { pa.value = ac.value; pa.readOnly = true; }
-      else { pa.readOnly = false; }
+      if (cb.checked) {
+        pa.value = 'Same as correspondence address';
+        pa.readOnly = true;
+      } else {
+        pa.value = '';
+        pa.readOnly = false;
+      }
     }
     cb.addEventListener('change', sync);
-    ac.addEventListener('input', function () { if (cb.checked) pa.value = ac.value; });
+    // Don't mirror live typing — the phrase is always fixed when checked
   }
 
   // ---- nominee address "same as applicant" -------------------------------
@@ -121,11 +155,15 @@
     var ac = document.getElementById('addressCorr');
     if (!cb || !na || !ac) return;
     function sync() {
-      if (cb.checked) { na.value = ac.value; na.readOnly = true; }
-      else { na.readOnly = false; }
+      if (cb.checked) {
+        na.value = 'Same as correspondence address';
+        na.readOnly = true;
+      } else {
+        na.value = '';
+        na.readOnly = false;
+      }
     }
     cb.addEventListener('change', sync);
-    ac.addEventListener('input', function () { if (cb.checked) na.value = ac.value; });
   }
 
   // ---- signature pad -----------------------------------------------------
@@ -199,6 +237,7 @@
   }
   async function buildPdf() {
     var data = collectData();
+    data.serial = allocateSerial(data); // sequential 4001+, shared per person
     var images = { signature: sigBytes ? { bytes: sigBytes, type: 'image/png' } : null };
     return await window.BMIOverlay.fillPdf(window.PDFLib, templateBytes(), data, images, currentApp);
   }

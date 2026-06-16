@@ -38,6 +38,17 @@
     page.drawText(text, { x: x, y: y, size: size, font: font, color: color });
   }
 
+  // Draw text but shrink font size automatically until it fits within maxWidth.
+  // minSize is the smallest we'll go (default 6pt) before just clipping.
+  function drawFit(page, font, text, x, y, size, color, maxWidth, minSize) {
+    text = sanitize(text).trim();
+    if (!text) return;
+    minSize = minSize || 6;
+    var s = size;
+    while (s > minSize && font.widthOfTextAtSize(text, s) > maxWidth) s -= 0.5;
+    page.drawText(text, { x: x, y: y, size: s, font: font, color: color });
+  }
+
   // Wrap `text` to `maxWidth` and draw each resulting line on the
   // successive y positions in `ys`. Honours explicit newlines too.
   // If the text needs more lines than provided, remaining lines keep
@@ -112,7 +123,10 @@
     if (t.length <= centers.length) {
       for (var i = 0; i < t.length; i++) drawCellChar(page, font, t[i], centers[i], y, size, color);
     } else {
-      draw(page, font, raw, centers[0] - 6, y, size, color); // keep original case (e-mails)
+      // too long for the boxes: draw as continuous text, auto-shrunk so it
+      // always stays within the span of the printed box row (never overflows).
+      var span = centers[centers.length - 1] - centers[0] + 14;
+      drawFit(page, font, raw, centers[0] - 6, y, size, color, span, 6); // keep original case (e-mails)
     }
   }
 
@@ -153,7 +167,7 @@
     if (!key.replace(/[|]/g, '').trim()) return ''; // nothing entered yet
     var h = 5381;
     for (var i = 0; i < key.length; i++) h = ((h << 5) + h + key.charCodeAt(i)) >>> 0;
-    return String(h % 10000).padStart(4, '0');
+    return String((h % 5999) + 4001); // always 4001–9999
   }
 
   // ---- main --------------------------------------------------------------
@@ -177,9 +191,16 @@
     var p1 = pages[0], p2 = pages[1], p3 = pages[2], p4 = pages[3];
 
     var g = function (k) { return data[k] != null ? String(data[k]) : ''; };
+    // When the user ticks "same as correspondence/applicant address" the UI
+    // stores this sentinel instead of the copied text; print a clean phrase.
+    var SAME = 'SAME_AS_CORRESPONDENCE';
+    var SAME_PHRASE = 'Same as correspondence address';
+    var addr = function (k) { return g(k) === SAME ? SAME_PHRASE : g(k); };
     var red = rgb(0.82, 0.09, 0.12);
-    // Same 4-digit serial for this person's Membership AND Site applications.
-    var serial = serialFor(g('name'), g('dob'));
+    // Same serial for this person's Membership AND Site applications. The UI
+    // allocates a sequential number (starting at 4001) keyed to name+DOB and
+    // passes it in as `serial`; fall back to the derived hash if absent.
+    var serial = g('serial') || serialFor(g('name'), g('dob'));
 
     // CRITICAL: this template's page MediaBox does NOT start at y=0 — its
     // lower-left origin is at y≈7.83. pdf-lib's drawText() places text in
@@ -244,13 +265,13 @@
     drawComb(p1, font, g('nomName'), CELLS.nomName, Y(208.4), 10.5, ink);
     drawComb(p1, font, g('nomAge'), CELLS.nomAge, Y(190.9), 10.5, ink);
     drawComb(p1, font, g('nomRel'), CELLS.nomRel, Y(190.9), 10.5, ink);
-    drawComb(p1, font, g('nomAddr'), CELLS.nomAddr, Y(173.4), 10.5, ink);
+    drawComb(p1, font, addr('nomAddr'), CELLS.nomAddr, Y(173.4), 10.5, ink);
 
     // 9. Family members (up to 5 rows): name @225, age @383, rel @443
     var famY = [108, 88, 68.5, 49, 29.5];
     (data.family || []).slice(0, 5).forEach(function (m, i) {
       if (!m) return;
-      draw(p1, font, m.name, 225, famY[i], 9, ink);
+      drawFit(p1, font, m.name, 225, famY[i], 9, ink, 158, 6);
       draw(p1, font, m.age, 388, famY[i], 9, ink);
       draw(p1, font, m.relationship, 443, famY[i], 9, ink);
     });
@@ -272,28 +293,30 @@
     draw(p3, font, g('phoneR'), 138, 73.5, 11, ink);
     draw(p3, font, g('phoneO'), 326, 73.5, 11, ink);
     draw(p3, font, g('mobile'), 98, 50, 11, ink);
-    draw(p3, font, g('email'), 343, 50, 11, ink);
+    drawFit(p3, font, g('email'), 343, 50, 11, ink, 222, 7);
 
-    draw(p3, font, g('name').toUpperCase(), 305, 599, 13, ink);
+    // Name / DOB / Father share the wide answer column (x≈305 → right border
+    // ≈585). Auto-shrink so even very long names stay inside the box.
+    drawFit(p3, font, g('name').toUpperCase(), 305, 599, 13, ink, 275, 7);
     var dobPlaceAge = [fmtDate(g('dob')), g('placeOfBirth'), g('age') && ('Age ' + g('age'))]
       .filter(Boolean).join(', ');
-    draw(p3, font, dobPlaceAge, 305, 578, 11, ink);
-    draw(p3, font, g('father').toUpperCase(), 305, 557, 11, ink);
+    drawFit(p3, font, dobPlaceAge, 305, 578, 11, ink, 275, 7);
+    drawFit(p3, font, g('father').toUpperCase(), 305, 557, 11, ink, 275, 7);
 
     // 4. Address for correspondence (left, 4 dotted lines) — sit above the dots
     drawWrapped(p3, font, g('addressCorr'), 70, [508, 481.5, 455, 428.5], 11, ink, 205, 26);
-    // 7. Permanent address (left, 3 dotted lines)
-    drawWrapped(p3, font, g('permAddr') || g('addressCorr'), 64, [391, 364.5, 338], 11, ink, 225, 26);
+    // 7. Permanent address — if "same as correspondence", print the phrase instead of copying
+    drawWrapped(p3, font, addr('permAddr') || g('addressCorr'), 64, [391, 364.5, 338], 11, ink, 225, 26);
     // 8. Designation & full office address (right, 3 dotted lines)
-    drawWrapped(p3, font, g('designation'), 310, [391, 364.5, 338], 11, ink, 220, 26);
+    drawWrapped(p3, font, g('designation'), 310, [391, 364.5, 338], 10, ink, 220, 26);
 
     // 9. Nominee (left: name, age/dob ; right: relationship, address)
-    draw(p3, font, g('nomName').toUpperCase(), 115, 297.5, 11, ink);
+    drawFit(p3, font, g('nomName').toUpperCase(), 115, 297.5, 11, ink, 180, 7);
     var nomAgeDob = [g('nomAge') && ('Age ' + g('nomAge')), g('nomDob') && fmtDate(g('nomDob'))]
       .filter(Boolean).join(', ');
-    draw(p3, font, nomAgeDob, 135, 264.5, 11, ink);
-    draw(p3, font, g('nomRel'), 365, 322, 11, ink);
-    drawWrapped(p3, font, g('nomAddr'), 380, [301, 279], 11, ink, 150, 22);
+    drawFit(p3, font, nomAgeDob, 135, 264.5, 11, ink, 150, 7);
+    drawFit(p3, font, g('nomRel'), 365, 322, 11, ink, 195, 7);
+    drawWrapped(p3, font, addr('nomAddr'), 380, [301, 279], 11, ink, 150, 22);
 
     // Shares (pre-printed TEN), Remarks and the Payment section are left blank
     // on the form for the society's office to complete.
