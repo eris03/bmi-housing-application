@@ -76,8 +76,20 @@
   function serialKeyFor(d) {
     return (d.name || '').trim().toUpperCase().replace(/\s+/g, ' ') + '|' + (d.dob || '');
   }
+  // Preview: shows what serial this person will get (or already has) without locking it in.
+  function peekSerial(d) {
+    if (!((d.name || '').trim() || (d.dob || '').trim())) return '';
+    var key = serialKeyFor(d), map = {}, next = 4001;
+    try { map = JSON.parse(localStorage.getItem('bmi_serial_map') || '{}'); } catch (e) {}
+    if (map[key]) return map[key];
+    try { next = parseInt(localStorage.getItem('bmi_serial_next') || '4001', 10) || 4001; } catch (e) {}
+    if (next < 4001) next = 4001;
+    return String(next); // tentative — NOT written to localStorage
+  }
+
+  // Download: permanently locks this person's serial and advances the counter.
   function allocateSerial(d) {
-    if (!((d.name || '').trim() || (d.dob || '').trim())) return ''; // nothing entered yet
+    if (!((d.name || '').trim() || (d.dob || '').trim())) return '';
     var key = serialKeyFor(d), map = {}, next = 4001;
     try { map = JSON.parse(localStorage.getItem('bmi_serial_map') || '{}'); } catch (e) {}
     if (map[key]) return map[key];                       // same person -> same serial
@@ -235,9 +247,9 @@
     for (var i = 0; i < len; i++) bytes[i] = bin.charCodeAt(i);
     return bytes;
   }
-  async function buildPdf() {
+  async function buildPdf(lockSerial) {
     var data = collectData();
-    data.serial = allocateSerial(data); // sequential 4001+, shared per person
+    data.serial = lockSerial ? allocateSerial(data) : peekSerial(data);
     var images = { signature: sigBytes ? { bytes: sigBytes, type: 'image/png' } : null };
     return await window.BMIOverlay.fillPdf(window.PDFLib, templateBytes(), data, images, currentApp);
   }
@@ -278,7 +290,7 @@
     var btn = document.getElementById('previewBtn');
     btn.disabled = true; var t = btn.innerHTML; btn.textContent = 'Preparing…';
     try {
-      var bytes = await buildPdf();
+      var bytes = await buildPdf(false); // peek only — serial not locked until download
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       previewUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
       document.getElementById('previewTitle').textContent = 'Preview — ' + APPS[currentApp].title;
@@ -299,7 +311,7 @@
     var btn = document.getElementById('downloadBtn');
     btn.disabled = true; var t = btn.innerHTML; btn.textContent = 'Generating…';
     try {
-      var bytes = await buildPdf();
+      var bytes = await buildPdf(true); // lock serial on download
       var data = collectData();
       var safe = (data.name || 'Applicant').trim().replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '') || 'Applicant';
       var dateStr = (data.date || '').trim() || todayStr();
