@@ -239,7 +239,10 @@
     // the dotted line instead of crossing it.
     drawOnDottedLine(p1, g('siteMeasuring'), 249, 584.5, 9);
     drawOnDottedLine(p1, g('layoutName'), 372, 584.5, 10);
-    drawComb(p1, font, g('name'), CELLS.main, Y(534.7), 11, ink);
+    // The applicant-name field has TWO rows of boxes (pitch ≈15.3pt): flow a
+    // long name onto the second row instead of cramming it into one, so it
+    // stays in the printed boxes. Short names just fill the first row.
+    drawCombFlow(p1, font, g('name'), CELLS.main, YS([534.7, 519.4]), 11, ink);
     drawComb(p1, font, g('father'), CELLS.main, Y(498.4), 11, ink);
     drawComb(p1, font, ageDobCells, CELLS.main, Y(473.4), 11, ink);
 
